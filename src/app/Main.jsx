@@ -17,15 +17,15 @@ export default function Main() {
     const Cards = [
         {
             title: "Üşüme Kardeşim",
-            content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet commodi consectetur cumque expedita fuga fugiat optio soluta vitae? Architecto iusto magnam maiores nisi quod quos sapiente similique sunt. Debitis, explicabo?",
+            content: "Kardeş Hareketi olarak, ülkemizin dört bir yanındaki ihtiyaç sahiplerine yardım eli uzatıyoruz. 'Üşüme Kardeşim' projemizle , ihtiyaç sahibi kardeşlerimize mont, bot, eldiven, atkı ve bere yardımında bulunuyoruz.   ",
             images: {
                 image1: "https://iili.io/FMLmbDb.jpg",
                 image2: "https://iili.io/FMLmDOu.jpg",
                 image3: "https://iili.io/FMLmDOu.jpg",
             }},
         {
-            title: "Adıyaman'da Çocuk Parkı!",
-            content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet commodi consectetur cumque expedita fuga fugiat optio soluta vitae? Architecto iusto magnam maiores nisi quod quos sapiente similique sunt. Debitis, explicabo?",
+            title: "Kırtasiye Yardımı",
+            content: "Kardeş Hareketi olarak, okullar başlamadan önce ihtiyaç sahibi öğrencilerimize kırtasiye yardımı sağlıyoruz. 'Kırtasiye Yardımı' projemizle, çocuklarımızın eğitimlerine destek olmak ve onların yüzlerinde bir tebessüm oluşturmak için çaba gösteriyoruz.",
             images: {
                 image1: "https://iili.io/FMLmpxj.jpg",
                 image2: "https://iili.io/FMLpfOg.jpg",
@@ -33,8 +33,8 @@ export default function Main() {
             },
         },
         {
-            title: "Yardım Kolisi",
-            content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet commodi consectetur cumque expedita fuga fugiat optio soluta vitae? Architecto iusto magnam maiores nisi quod quos sapiente similique sunt. Debitis, explicabo?",
+            title: "Yardım Kartı",
+            content: "Kardeş Hareketi olarak, yardıma muhtaç ailelere yardım kartı desteğinde bulunarak kendi ihtiyaçlarını kendi ihtiyaç durumlarına göre karşılamalarına destek oluyoruz.",
             images: {
                 image1: "https://iili.io/FMLpK5F.jpg",
                 image2: "https://iili.io/FMLpFJ1.jpg",
@@ -42,8 +42,8 @@ export default function Main() {
             },
         },
         {
-            title: "Eğlenceli Faaliyetler",
-            content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet commodi consectetur cumque expedita fuga fugiat optio soluta vitae? Architecto iusto magnam maiores nisi quod quos sapiente similique sunt. Debitis, explicabo?",
+            title: "Kardeş Şenliği",
+            content: "Kardeş Hareketi olarak, her sene bahar döneminde düzenli olarak yetim ve öksüz kardeşlerimizle bir araya gelerek Kardeş Şenliği düzenleyerek mutluluklarına ortak oluyoruz.",
             images: {
                 image1: "https://iili.io/FMLpqba.jpg",
                 image2: "https://iili.io/FMLmpxj.jpg",
@@ -51,8 +51,17 @@ export default function Main() {
             },
         },
         {
+            title: "Kurban Faaliyetleri",
+            content: "Kardeş Hareketi olarak, ülkemizde ve yardıma muhtaç coğrafyalarda sizlerin emaneti olan farz ve nafile kurbanlarınızı ihtiyaç sahiplerine teslim ediyoruz.",
+            images: {
+                image1: "https://i.imghippo.com/files/FEX3798xuw.jpeg",
+                image2: "https://i.imghippo.com/files/mac6312nE.jpeg",
+                image3: "https://i.imghippo.com/files/OsIO2212kJs.jpeg",
+            },
+        },
+                {
             title: "Eğlenceli Faaliyetler",
-            content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet commodi consectetur cumque expedita fuga fugiat optio soluta vitae? Architecto iusto magnam maiores nisi quod quos sapiente similique sunt. Debitis, explicabo?",
+            content: "Kardeş Hareketi olarak, sadece temel ihtiyaçlara değil, aynı zamanda kardeşlerimizin mutluluğuna da önem veriyoruz. Bu nedenle, düzenli olarak eğlenceli faaliyetler düzenleyerek kardeşlerimizin yüzlerinde bir tebessüm oluşturmayı hedefliyoruz.",
             images: {
                 image1: "https://i.imghippo.com/files/FEX3798xuw.jpeg",
                 image2: "https://i.imghippo.com/files/mac6312nE.jpeg",
