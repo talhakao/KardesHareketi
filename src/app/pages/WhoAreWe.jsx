@@ -55,32 +55,17 @@ export default function WhoAreWe({ state, setCurrentState }) { // setCurrentStat
                                 <div className={"mt-2 text-xl font-bold text-gray-600"}>Misyonumuz</div>
                                 <div className={"mt-4 text-gray-700 text-lg"}>
                                     <div>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis cum eligendi nulla quaerat quidem! Autem consectetur dignissimos distinctio eveniet quaerat quidem quisquam rem repellat soluta voluptatum. Deleniti dolore error facere.
-                                        <br/> <br/>
-                                        <div>- Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad corporis dignissimos doloribus</div>
-                                        <div>- Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad corporis dignissimos doloribus</div>
-                                        <div>- Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad corporis dignissimos doloribus</div>
+                                        Kardeş Hareketi, her insanı bir dünya olarak gören; dokunduğu insanlarla dünyayı iyilikle kuşatmayı hedefleyen bir kardeşlik hareketidir. Temel misyonu, insani değerlerin hâlâ ölmediği ve bir yerlerde onları yaşatan insanların var olduğu umudunu diri tutmak; mazlum, mağdur ve kimsesiz kalmış insanlara omuz verip “kardeş” olabilmektir.
                                     </div>
                                 </div>
 
                                 <div className={"mt-8 text-xl font-bold text-gray-600"}>Vizyonumuz</div>
                                 <div className={"mt-4 text-gray-700 text-lg"}>
                                     <div>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis cum eligendi nulla quaerat quidem! Autem consectetur dignissimos distinctio eveniet quaerat quidem quisquam rem repellat soluta voluptatum. Deleniti dolore error facere.
-                                        <br/> <br/>
-                                        <div>- Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad corporis dignissimos doloribus</div>
-                                        <div>- Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad corporis dignissimos doloribus</div>
-                                        <div>- Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad corporis dignissimos doloribus</div>
+                                        Temel vizyonu, çocuklar başta olmak üzere toplumun her kesiminde dayanışma ve paylaşma kültürünü güçlendiren; ihtiyaç sahiplerine sürekli ve sürdürülebilir faydalar sunmaya gayret eden, kurduğu kardeşlik ağıyla dünyayı iyilikle kuşatmayı hedefleyen örnek bir yardım hareketi olmaktır.
                                     </div>
                                 </div>
 
-                                <div className={"mt-8 text-xl font-bold text-gray-600"}>Çalışma İlkelerimiz</div>
-                                <div className={"mt-4 text-gray-700 text-lg"}>
-                                    <div className={"mb-4"}>- Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad corporis dignissimos doloribus</div>
-                                    <div className={"mb-4"}>- Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad corporis dignissimos doloribus</div>
-                                    <div className={"mb-4"}>- Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad corporis dignissimos doloribus</div>
-                                    <div className={"mb-4"}>- Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad corporis dignissimos doloribus</div>
-                                </div>
                             </div>
                         ) || localState === 2 && (
                             <BoardMember/>

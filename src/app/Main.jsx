@@ -9,7 +9,7 @@ import WhoAreWe from "@/app/pages/WhoAreWe";
 import Contact from "@/app/pages/Contact";
 import MainCarousel from "@/app/Components/MainCarousel";
 
-import logo from "@/Images/B.png";
+import logo from "@/Images/Qolorly.png";
 import elsallama from "@/Images/cocuklarElSalliyor.jpeg";
 
 
@@ -298,7 +298,7 @@ export default function Main() {
                                                 className="w-full h-40 object-cover rounded-md"
                                             />
                                             <div className="text-2xl font-bold mt-4 text-left">{card.title}</div>
-                                            <div className="text-gray-600 mt-4 text-justify">{card.content}</div>
+                                            <div className="text-gray-600 mt-4 text-left">{card.content}</div>
                                         </div>
                                     ))}
                                 </div>
