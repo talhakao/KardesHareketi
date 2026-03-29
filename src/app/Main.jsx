@@ -2,73 +2,110 @@
 import {FaInstagram, FaYoutube} from "react-icons/fa";
 import {FaXTwitter} from "react-icons/fa6";
 import {Button, Modal} from "antd";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import { Dropdown, Space } from 'antd';
 import Image from "next/image";
 import WhoAreWe from "@/app/pages/WhoAreWe";
 import Contact from "@/app/pages/Contact";
 import MainCarousel from "@/app/Components/MainCarousel";
+import BizeKatil from "@/app/pages/BizeKatil";
 
 import logo from "@/Images/Qolorly.png";
-import elsallama from "@/Images/cocuklarElSalliyor.jpeg";
 
+
+// Varsayılan görsel yolları (DB'den gelmezse bunlar kullanılır)
+const DEFAULT_IMAGES = {
+    activity_usume_1: "/Images/usume1.JPG",
+    activity_usume_2: "/Images/usume2.JPG",
+    activity_usume_3: "/Images/usume3.jpg",
+    activity_kirtasiye_1: "https://iili.io/FMLmpxj.jpg",
+    activity_kirtasiye_2: "https://iili.io/FMLpfOg.jpg",
+    activity_kirtasiye_3: "https://iili.io/FMLmDOu.jpg",
+    activity_yardim_kart_1: "https://iili.io/FMLpK5F.jpg",
+    activity_yardim_kart_2: "https://iili.io/FMLpFJ1.jpg",
+    activity_yardim_kart_3: "https://iili.io/FMLmDOu.jpg",
+    activity_senligi_1: "https://iili.io/FMLpqba.jpg",
+    activity_senligi_2: "https://iili.io/FMLmpxj.jpg",
+    activity_senligi_3: "https://iili.io/FMLpfOg.jpg",
+    activity_kurban_1: "https://i.imghippo.com/files/FEX3798xuw.jpeg",
+    activity_kurban_2: "https://i.imghippo.com/files/mac6312nE.jpeg",
+    activity_kurban_3: "https://i.imghippo.com/files/OsIO2212kJs.jpeg",
+    activity_eglence_1: "https://i.imghippo.com/files/FEX3798xuw.jpeg",
+    activity_eglence_2: "https://i.imghippo.com/files/mac6312nE.jpeg",
+    activity_eglence_3: "https://i.imghippo.com/files/OsIO2212kJs.jpeg",
+    home_about: "/Images/cocuklarElSalliyor.jpeg",
+};
 
 export default function Main() {
+    const [siteImages, setSiteImages] = useState(DEFAULT_IMAGES);
+
+    useEffect(() => {
+        fetch("/api/images")
+            .then((r) => r.json())
+            .then((data) => {
+                if (data && typeof data === "object") {
+                    setSiteImages((prev) => ({ ...prev, ...data }));
+                }
+            })
+            .catch(() => {});
+    }, []);
+
     const Cards = [
         {
             title: "Üşüme Kardeşim",
             content: "Kardeş Hareketi olarak, ülkemizin dört bir yanındaki ihtiyaç sahiplerine yardım eli uzatıyoruz. 'Üşüme Kardeşim' projemizle , ihtiyaç sahibi kardeşlerimize mont, bot, eldiven, atkı ve bere yardımında bulunuyoruz.   ",
             images: {
-                image1: "https://iili.io/FMLmbDb.jpg",
-                image2: "https://iili.io/FMLmDOu.jpg",
-                image3: "https://iili.io/FMLmDOu.jpg",
-            }},
+                image1: siteImages.activity_usume_1,
+                image2: siteImages.activity_usume_2,
+                image3: siteImages.activity_usume_3,
+            }
+        },
         {
             title: "Kırtasiye Yardımı",
             content: "Kardeş Hareketi olarak, okullar başlamadan önce ihtiyaç sahibi öğrencilerimize kırtasiye yardımı sağlıyoruz. 'Kırtasiye Yardımı' projemizle, çocuklarımızın eğitimlerine destek olmak ve onların yüzlerinde bir tebessüm oluşturmak için çaba gösteriyoruz.",
             images: {
-                image1: "https://iili.io/FMLmpxj.jpg",
-                image2: "https://iili.io/FMLpfOg.jpg",
-                image3: "https://iili.io/FMLmDOu.jpg",
+                image1: siteImages.activity_kirtasiye_1,
+                image2: siteImages.activity_kirtasiye_2,
+                image3: siteImages.activity_kirtasiye_3,
             },
         },
         {
             title: "Yardım Kartı",
             content: "Kardeş Hareketi olarak, yardıma muhtaç ailelere yardım kartı desteğinde bulunarak kendi ihtiyaçlarını kendi ihtiyaç durumlarına göre karşılamalarına destek oluyoruz.",
             images: {
-                image1: "https://iili.io/FMLpK5F.jpg",
-                image2: "https://iili.io/FMLpFJ1.jpg",
-                image3: "https://iili.io/FMLmDOu.jpg",
+                image1: siteImages.activity_yardim_kart_1,
+                image2: siteImages.activity_yardim_kart_2,
+                image3: siteImages.activity_yardim_kart_3,
             },
         },
         {
             title: "Kardeş Şenliği",
             content: "Kardeş Hareketi olarak, her sene bahar döneminde düzenli olarak yetim ve öksüz kardeşlerimizle bir araya gelerek Kardeş Şenliği düzenleyerek mutluluklarına ortak oluyoruz.",
             images: {
-                image1: "https://iili.io/FMLpqba.jpg",
-                image2: "https://iili.io/FMLmpxj.jpg",
-                image3: "https://iili.io/FMLpfOg.jpg",
+                image1: siteImages.activity_senligi_1,
+                image2: siteImages.activity_senligi_2,
+                image3: siteImages.activity_senligi_3,
             },
         },
         {
             title: "Kurban Faaliyetleri",
             content: "Kardeş Hareketi olarak, ülkemizde ve yardıma muhtaç coğrafyalarda sizlerin emaneti olan farz ve nafile kurbanlarınızı ihtiyaç sahiplerine teslim ediyoruz.",
             images: {
-                image1: "https://i.imghippo.com/files/FEX3798xuw.jpeg",
-                image2: "https://i.imghippo.com/files/mac6312nE.jpeg",
-                image3: "https://i.imghippo.com/files/OsIO2212kJs.jpeg",
+                image1: siteImages.activity_kurban_1,
+                image2: siteImages.activity_kurban_2,
+                image3: siteImages.activity_kurban_3,
             },
         },
-                {
+        {
             title: "Eğlenceli Faaliyetler",
             content: "Kardeş Hareketi olarak, sadece temel ihtiyaçlara değil, aynı zamanda kardeşlerimizin mutluluğuna da önem veriyoruz. Bu nedenle, düzenli olarak eğlenceli faaliyetler düzenleyerek kardeşlerimizin yüzlerinde bir tebessüm oluşturmayı hedefliyoruz.",
             images: {
-                image1: "https://i.imghippo.com/files/FEX3798xuw.jpeg",
-                image2: "https://i.imghippo.com/files/mac6312nE.jpeg",
-                image3: "https://i.imghippo.com/files/OsIO2212kJs.jpeg",
+                image1: siteImages.activity_eglence_1,
+                image2: siteImages.activity_eglence_2,
+                image3: siteImages.activity_eglence_3,
             },
         },
-    ]
+    ];
 
     const [currentState, setCurrentState] = useState(0);
 
@@ -203,11 +240,12 @@ export default function Main() {
 
                 {/* Join Button */}
                 <div className="max-sm:mr-2">
-                    <a onClick={() => window.open("https://forms.gle/R6yqPrF31FKdZK9u5", "_blank")}>
-                        <div className="px-6 py-2 rounded-md cursor-pointer bg-orange-600 hover:bg-orange-500 hover:scale-105 transition-all duration-300 font-bold text-white shadow-md">
-                            Bize Katıl!
-                        </div>
-                    </a>
+                    <div
+                        onClick={() => setCurrentState(8)}
+                        className="px-6 py-2 rounded-md cursor-pointer bg-orange-600 hover:bg-orange-500 hover:scale-105 transition-all duration-300 font-bold text-white shadow-md"
+                    >
+                        Bize Katıl!
+                    </div>
                 </div>
 
             </div>
@@ -266,7 +304,7 @@ export default function Main() {
                                         Çalışmalarımızda özellikle 0–13 yaş arası yetim ve öksüz çocukları önceleyerek onların temel ihtiyaçlarına, eğitimlerine ve güvenli bir çocukluk geçirmelerine destek olmayı hedefliyoruz. Kardeş Hareketi, dünyanın neresinde olursa olsun iyiliğin ve kardeşliğin ortak dili olma niyetiyle yola çıkmış bir dayanışma çağrısıdır.
                                     </div>
                                     <div className={"w-1/3 max-xl:w-1/2 max-lg:w-4/5 h-[600px]"}>
-                                        <Image src={elsallama} alt={"image"} className={"object-cover w-full h-full rounded-lg"} />
+                                        <img src={siteImages.home_about} alt={"image"} className={"object-cover w-full h-full rounded-lg"} />
                                     </div>
                                 </div>
                             </div>
@@ -287,6 +325,8 @@ export default function Main() {
                                                 setCurrentTitle(card.title);
                                                 setCurrentContent(card.content);
                                                 setCurrentIndex(index);
+                                                setCurrentImage(card.images.image1);
+                                                setCurrentImageIndex(0);
                                                 showModal();
                                             }}
                                             className="w-[300px] h-[500px] bg-gray-100 rounded-lg p-6 cursor-pointer hover:shadow-lg hover:bg-gray-200 transition flex-shrink-0"
@@ -317,9 +357,6 @@ export default function Main() {
                                     <div className="flex flex-col items-center justify-center text-2xl p-4">
                                         <div
                                             className={"flex w-full cursor-zoom-in space-x-4 overflow-x-auto snap-always"}
-                                            onClick={() => {
-                                                setCurrentImage(Cards.at(currentIndex).images.image+`${currentImageIndex + 1}`)
-                                            }}
                                         >
                                             {Object.values(Cards.at(currentIndex).images).map((img, imgIndex) => (
                                                 <img
@@ -328,6 +365,7 @@ export default function Main() {
                                                     alt={`Image ${imgIndex + 1}`}
                                                     className={"object-cover w-[500px] h-[300px] rounded-lg"}
                                                     onClick={() => {
+                                                        setCurrentImage(img);
                                                         setCurrentImageIndex(imgIndex);
                                                         setShowFullScreenModal(true);
                                                     }}/>
@@ -389,6 +427,13 @@ export default function Main() {
                 )
             }
 
+            {/* Eğer state 8 ise Bize Katılın formunu çağır */}
+            {
+                currentState === 8 && (
+                    <BizeKatil />
+                )
+            }
+
             {/* Footer */}
             <div>
                 <footer className="bg-gray-900">
@@ -424,7 +469,14 @@ export default function Main() {
                                     Bİze Katılmak İster Mİsİn?
                                 </h3>
                                 <p className="mt-2 text-base text-gray-300">
-                                    Sayfanın en üst kısmındaki bize katıl butonuna tıklayarak bize katılabilirsin.
+                                    Sayfanın en üst kısmındaki{" "}
+                                    <span
+                                        onClick={() => setCurrentState(8)}
+                                        className="text-orange-400 cursor-pointer hover:text-orange-300 underline"
+                                    >
+                                        Bize Katıl!
+                                    </span>{" "}
+                                    butonuna tıklayarak bize katılabilirsin.
                                 </p>
                             </div>
                         </div>
