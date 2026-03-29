@@ -31,14 +31,14 @@ export default function Contact() {
                                     <div className="w-14 h-14 bg-orange-500/20 rounded-full flex items-center justify-center text-orange-500 text-2xl shrink-0">
                                         <FaEnvelope />
                                     </div>
-                                    <div className="text-xl font-bold">bilgi@kardeshareketi.org</div>
+                                    <div className="text-xl font-bold">kardes@hareketidernegi.com</div>
                                 </div>
 
                                 <div className="flex items-start gap-5">
                                     <div className="w-14 h-14 bg-orange-500/20 rounded-full flex items-center justify-center text-orange-500 text-2xl shrink-0">
                                         <FaMapMarkerAlt />
                                     </div>
-                                    <div className="text-lg">Örnek Mahallesi, İyilik Sokak No: 1,<br/> İstanbul, Türkiye</div>
+                                    <div className="text-lg">Mehmet Akif Mahallesi, Fatih Bulvarı No:147,<br/> Sultanbeyli / İstanbul</div>
                                 </div>
                             </div>
                         </div>
