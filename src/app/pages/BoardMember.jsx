@@ -50,31 +50,57 @@ export default function BoardMember() {
             .then((data) => {
                 if (data && typeof data === "object") {
                     setMembers((prev) =>
-                        prev.map((m) => ({
-                            ...m,
-                            image: data[m.imageKey] || m.image,
-                        }))
+                        prev.map((m) => ({ ...m, image: data[m.imageKey] || m.image }))
                     );
                 }
             })
             .catch(() => {});
     }, []);
 
+    const [baskan, ...diger] = members;
+
     return (
-        <div className={"flex flex-col items-center justify-center gap-12"}>
-            <div className={"flex justify-center text-xl font-bold"}>Yönetim Kurulu</div>
-            <div className={"grid grid-cols-3 gap-12 justify-between w-full"}>
-                {members.map((member, index) => (
-                    <div key={index} className={"flex flex-col items-center gap-1"}>
-                        <div className={"p-1 bg-gray-50 rounded-lg"}>
-                            <img
-                                src={member.image}
-                                alt={member.name}
-                                className={"h-64 w-56 rounded-lg object-cover"}
-                            />
+        <div className="flex flex-col gap-10">
+            <div>
+                <h1 className="text-3xl font-montserrat-bold text-gray-900 mb-2">Yönetim Kurulu</h1>
+                <div className="h-1 w-16 bg-orange-500 rounded-full mb-2" />
+                <p className="text-gray-500 font-montserrat-regular text-sm">
+                    Kardeş Hareketi Derneği yönetim kurulu üyeleri
+                </p>
+            </div>
+
+            {/* Başkan — öne çıkan kart */}
+            <div className="flex justify-center">
+                <div className="group relative w-60 rounded-2xl overflow-hidden shadow-lg border border-gray-100">
+                    <img
+                        src={baskan.image}
+                        alt={baskan.name}
+                        className="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#062327]/90 via-transparent to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-5">
+                        <span className="inline-block bg-orange-500 text-white text-xs font-montserrat-semibold px-3 py-1 rounded-full mb-2">
+                            {baskan.title}
+                        </span>
+                        <p className="text-white font-montserrat-bold text-lg leading-tight">{baskan.name}</p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Diğer üyeler */}
+            <div className="grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-6">
+                {diger.map((member, i) => (
+                    <div key={i} className="group relative rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
+                        <img
+                            src={member.image}
+                            alt={member.name}
+                            className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#062327]/85 via-transparent to-transparent" />
+                        <div className="absolute bottom-0 left-0 right-0 p-4">
+                            <p className="text-orange-400 text-xs font-montserrat-semibold mb-1">{member.title}</p>
+                            <p className="text-white font-montserrat-bold text-base leading-tight">{member.name}</p>
                         </div>
-                        <div className={"text-lg font-bold"}>{member.name}</div>
-                        <div className={"text-gray-500 font-bold"}>{member.title}</div>
                     </div>
                 ))}
             </div>
