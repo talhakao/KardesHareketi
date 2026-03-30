@@ -1,6 +1,5 @@
 "use client";
 import { FaInstagram, FaYoutube } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
 import { Button, Modal } from "antd";
 import { useState, useEffect } from "react";
 import { Dropdown, Space } from "antd";
@@ -34,9 +33,13 @@ const DEFAULT_IMAGES = {
     home_about: "/Images/cocuklarElSalliyor.jpeg",
 };
 
-// Scroll-reveal hook
-function useReveal() {
+// Scroll-reveal: currentState'e bağlı — sayfa değişince elemanlar yeniden observe edilir
+function useReveal(currentState) {
     useEffect(() => {
+        // Yeni render edilen elemanların visible sınıfını sıfırla, yeniden gözlemle
+        const els = document.querySelectorAll(".reveal, .reveal-left, .reveal-right");
+        els.forEach((el) => el.classList.remove("visible"));
+
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
@@ -45,17 +48,26 @@ function useReveal() {
                     }
                 });
             },
-            { threshold: 0.12 }
+            { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
         );
-        const els = document.querySelectorAll(".reveal, .reveal-left, .reveal-right");
         els.forEach((el) => observer.observe(el));
         return () => observer.disconnect();
-    }, []);
+    }, [currentState]);
 }
 
 export default function Main() {
     const [siteImages, setSiteImages] = useState(DEFAULT_IMAGES);
-    useReveal();
+    const [currentState, setCurrentState] = useState(0);
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentTitle, setCurrentTitle] = useState("");
+    const [currentImage, setCurrentImage] = useState("");
+    const [currentContent, setCurrentContent] = useState("");
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [showFullScreenModal, setShowFullScreenModal] = useState(false);
+
+    useReveal(currentState);
 
     useEffect(() => {
         fetch("/api/images")
@@ -67,6 +79,12 @@ export default function Main() {
             })
             .catch(() => {});
     }, []);
+
+    const navigate = (state) => {
+        setCurrentState(state);
+        setMenuOpen(false);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
 
     const Cards = [
         {
@@ -101,15 +119,6 @@ export default function Main() {
         },
     ];
 
-    const [currentState, setCurrentState] = useState(0);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [currentTitle, setCurrentTitle] = useState("");
-    const [currentImage, setCurrentImage] = useState("");
-    const [currentContent, setCurrentContent] = useState("");
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [showFullScreenModal, setShowFullScreenModal] = useState(false);
-
     const handleCancel = () => { setIsModalOpen(false); setShowFullScreenModal(false); };
     const closeModal = () => setShowFullScreenModal(false);
 
@@ -119,36 +128,48 @@ export default function Main() {
     };
 
     const itemsHakkimizda = [
-        { label: <div className="font-montserrat-semibold py-1" onClick={() => setCurrentState(1)}>Biz Kimiz?</div>, key: "0" },
-        { label: <div className="font-montserrat-semibold py-1" onClick={() => setCurrentState(2)}>Yönetim Kurulu</div>, key: "1" },
-        { label: <div className="font-montserrat-semibold py-1" onClick={() => setCurrentState(3)}>Dernek Tüzüğü</div>, key: "2" },
-        { label: <div className="font-montserrat-semibold py-1" onClick={() => setCurrentState(4)}>KVKK</div>, key: "3" },
+        { label: <div className="font-montserrat-semibold py-1" onClick={() => navigate(1)}>Biz Kimiz?</div>, key: "0" },
+        { label: <div className="font-montserrat-semibold py-1" onClick={() => navigate(2)}>Yönetim Kurulu</div>, key: "1" },
+        { label: <div className="font-montserrat-semibold py-1" onClick={() => navigate(3)}>Dernek Tüzüğü</div>, key: "2" },
+        { label: <div className="font-montserrat-semibold py-1" onClick={() => navigate(4)}>KVKK</div>, key: "3" },
     ];
     const itemsFaaliyetlerimiz = [
-        { label: <div className="font-montserrat-semibold py-1" onClick={() => setCurrentState(5)}>Tüm Faaliyetler</div>, key: "0" },
+        { label: <div className="font-montserrat-semibold py-1" onClick={() => navigate(5)}>Tüm Faaliyetler</div>, key: "0" },
+    ];
+
+    const mobileNavItems = [
+        { label: "Ana Sayfa",        action: () => navigate(0) },
+        { label: "Biz Kimiz?",       action: () => navigate(1) },
+        { label: "Yönetim Kurulu",   action: () => navigate(2) },
+        { label: "Dernek Tüzüğü",    action: () => navigate(3) },
+        { label: "KVKK",             action: () => navigate(4) },
+        { label: "Faaliyetlerimiz",  action: () => navigate(5) },
+        { label: "İletişim",         action: () => navigate(7) },
     ];
 
     return (
         <div className="bg-white text-gray-800 relative font-montserrat-regular" id="main">
 
             {/* ── HEADER ── */}
-            <header className="h-20 max-md:h-24 flex items-center justify-between px-8 max-md:px-2 z-50 w-full fixed top-0 bg-[#062327]/95 backdrop-blur-md border-b border-white/10 text-gray-200 shadow-lg">
+            <header className="h-16 flex items-center justify-between px-6 z-50 w-full fixed top-0 bg-[#062327]/95 backdrop-blur-md border-b border-white/10 text-gray-200 shadow-lg">
+                {/* Logo */}
                 <div
-                    className="w-20 max-md:w-24 h-20 max-md:h-24 flex items-center max-md:ml-4 cursor-pointer"
-                    onClick={() => { setCurrentState(0); scrollToSection("main"); }}
+                    className="w-14 h-14 flex items-center cursor-pointer flex-shrink-0"
+                    onClick={() => { navigate(0); }}
                 >
                     <Image src={logo} alt="logo" className="w-full" />
                 </div>
 
-                <nav className="flex items-center justify-center gap-8 max-lg:gap-2 max-md:hidden">
+                {/* Masaüstü nav */}
+                <nav className="hidden md:flex items-center justify-center gap-6">
                     <button
-                        className="px-3 py-1.5 rounded-md cursor-pointer hover:text-white hover:scale-105 transition duration-200 font-bold"
-                        onClick={() => { scrollToSection("main"); setCurrentState(0); }}
+                        className="px-3 py-1.5 rounded-md cursor-pointer hover:text-white hover:scale-105 transition duration-200 font-bold text-sm"
+                        onClick={() => navigate(0)}
                     >Ana Sayfa</button>
 
                     <Dropdown menu={{ items: itemsHakkimizda }}>
                         <a onClick={(e) => e.preventDefault()}>
-                            <Space className="font-bold cursor-pointer hover:text-white hover:scale-105 transition duration-200 px-3 py-1.5">
+                            <Space className="font-bold cursor-pointer hover:text-white hover:scale-105 transition duration-200 px-3 py-1.5 text-sm">
                                 Kurumsal
                             </Space>
                         </a>
@@ -156,49 +177,92 @@ export default function Main() {
 
                     <Dropdown menu={{ items: itemsFaaliyetlerimiz }}>
                         <a onClick={(e) => e.preventDefault()}>
-                            <Space className="font-bold cursor-pointer hover:text-white hover:scale-105 transition duration-200 px-3 py-1.5">
+                            <Space className="font-bold cursor-pointer hover:text-white hover:scale-105 transition duration-200 px-3 py-1.5 text-sm">
                                 Faaliyetlerimiz
                             </Space>
                         </a>
                     </Dropdown>
 
                     <button
-                        className="px-3 py-1.5 rounded-md cursor-pointer hover:text-white hover:scale-105 transition duration-200 font-bold"
-                        onClick={() => setCurrentState(7)}
+                        className="px-3 py-1.5 rounded-md cursor-pointer hover:text-white hover:scale-105 transition duration-200 font-bold text-sm"
+                        onClick={() => navigate(7)}
                     >İletişim</button>
                 </nav>
 
+                <div className="flex items-center gap-3">
+                    <button
+                        onClick={() => navigate(8)}
+                        className="px-5 py-2 rounded-full bg-orange-600 hover:bg-orange-500 hover:scale-105 active:scale-95 transition-all duration-300 font-bold text-white shadow-md text-sm"
+                    >
+                        Bize Katıl!
+                    </button>
+
+                    {/* Hamburger — sadece mobil */}
+                    <button
+                        className="md:hidden flex flex-col justify-center gap-[5px] w-9 h-9 p-1.5 rounded-md hover:bg-white/10 transition-colors z-50"
+                        onClick={() => setMenuOpen((v) => !v)}
+                        aria-label="Menü"
+                    >
+                        <span className={`block h-0.5 bg-white rounded-full transition-all duration-300 origin-center ${menuOpen ? "rotate-45 translate-y-[7px] w-full" : "w-full"}`} />
+                        <span className={`block h-0.5 bg-white rounded-full transition-all duration-300 ${menuOpen ? "opacity-0 w-0" : "w-full"}`} />
+                        <span className={`block h-0.5 bg-white rounded-full transition-all duration-300 origin-center ${menuOpen ? "-rotate-45 -translate-y-[7px] w-full" : "w-full"}`} />
+                    </button>
+                </div>
+            </header>
+
+            {/* ── MOBİL MENÜ OVERLAY ── */}
+            <div
+                className={`fixed inset-0 z-40 md:hidden flex flex-col items-center justify-center gap-2 transition-all duration-400 ${
+                    menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+                }`}
+                style={{ background: "rgba(6,35,39,0.98)", backdropFilter: "blur(8px)" }}
+            >
+                {mobileNavItems.map((item, i) => (
+                    <button
+                        key={i}
+                        onClick={item.action}
+                        className={`text-2xl font-montserrat-bold text-gray-200 hover:text-orange-400 transition-all duration-300 py-3 px-8 rounded-xl hover:bg-white/5 w-64 text-center ${
+                            menuOpen ? "anim-fadeInUp" : ""
+                        }`}
+                        style={{ animationDelay: `${i * 0.05}s` }}
+                    >
+                        {item.label}
+                    </button>
+                ))}
                 <button
-                    onClick={() => setCurrentState(8)}
-                    className="px-6 py-2 rounded-md bg-orange-600 hover:bg-orange-500 hover:scale-105 active:scale-95 transition-all duration-300 font-bold text-white shadow-md max-sm:mr-2"
+                    onClick={() => navigate(8)}
+                    className="mt-4 px-10 py-3.5 bg-orange-600 hover:bg-orange-500 text-white font-montserrat-bold rounded-full shadow-lg text-lg transition-all duration-300 hover:scale-105 anim-fadeInUp"
+                    style={{ animationDelay: `${mobileNavItems.length * 0.05}s` }}
                 >
                     Bize Katıl!
                 </button>
-            </header>
+            </div>
 
             {/* ── HERO TEXT OVERLAY ── */}
-            <div className={`absolute w-full flex justify-end items-center z-10 ${currentState !== 0 ? "pt-52" : "pt-80"}`}>
+            <div className={`absolute w-full flex justify-end items-center z-10 ${currentState !== 0 ? "pt-44 md:pt-52" : "pt-52 md:pt-80"}`}>
                 <div className="absolute z-10 bg-gradient-radial from-black to-transparent h-[300px] w-[700px] rounded-full mr-16 opacity-80 blur-xl" />
-                <div className={`absolute z-20 flex flex-col items-end justify-center px-12 mx-6 ${currentState !== 0 ? "mt-16" : ""}`}>
-                    <span className={`anim-fadeInUp anim-d2 bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent select-none font-montserrat-bold ${currentState !== 0 ? "text-4xl" : "text-6xl max-md:text-4xl"}`}>
+                <div className={`absolute z-20 flex flex-col items-end justify-center px-6 md:px-12 mx-4 md:mx-6 ${currentState !== 0 ? "mt-8 md:mt-16" : ""}`}>
+                    <span className={`anim-fadeInUp anim-d2 bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent select-none font-montserrat-bold ${currentState !== 0 ? "text-3xl md:text-4xl" : "text-4xl md:text-6xl"}`}>
                         Kardeş Hareketi
                     </span>
-                    <div className={`anim-fadeInUp anim-d3 font-light text-right text-gray-200 font-montserrat-light select-none ${currentState !== 0 ? "text-3xl" : "text-5xl max-md:text-3xl mt-4"}`}>
-                        Burada Bir Kardeş'in Var
+                    <div className={`anim-fadeInUp anim-d3 font-light text-right text-gray-200 font-montserrat-light select-none ${currentState !== 0 ? "text-2xl md:text-3xl" : "text-3xl md:text-5xl mt-3 md:mt-4"}`}>
+                        Burada Bir{" "}
+                        <span style={{ color: "#60a5fa" }}>Kardeş'in</span>{" "}
+                        Var
                     </div>
                     {currentState === 0 && (
                         <button
-                            onClick={() => scrollToSection("about")}
-                            className="anim-fadeInUp anim-d4 mt-6 px-7 py-3 bg-orange-600 hover:bg-orange-500 active:scale-95 text-white font-montserrat-bold rounded-full shadow-lg transition-all duration-300 hover:scale-105"
+                            onClick={() => navigate(1)}
+                            className="anim-fadeInUp anim-d4 mt-5 md:mt-6 px-6 md:px-7 py-2.5 md:py-3 bg-orange-600 hover:bg-orange-500 active:scale-95 text-white font-montserrat-bold rounded-full shadow-lg transition-all duration-300 hover:scale-105 text-sm md:text-base"
                         >
-                            Daha Fazla Keşfet
+                            Biz Kimiz?
                         </button>
                     )}
                 </div>
             </div>
 
             {/* ── CAROUSEL ── */}
-            <div className="pt-20">
+            <div className="pt-16">
                 <MainCarousel state={currentState} />
             </div>
 
@@ -206,32 +270,32 @@ export default function Main() {
             {currentState === 0 && (
                 <div>
                     {/* BİZ KİMİZ */}
-                    <section id="about" className="bg-[#062327] py-24 max-md:py-16 overflow-hidden">
-                        <div className="flex items-center justify-center mb-14">
+                    <section id="about" className="bg-[#062327] py-16 md:py-24 overflow-hidden">
+                        <div className="flex items-center justify-center mb-10 md:mb-14">
                             <div className="flex flex-col items-center gap-3">
-                                <span className="text-orange-400 text-sm font-montserrat-semibold tracking-widest uppercase">Hakkımızda</span>
-                                <h2 className="text-4xl font-montserrat-bold text-white">Biz Kimiz?</h2>
+                                <span className="text-orange-400 text-xs md:text-sm font-montserrat-semibold tracking-widest uppercase">Hakkımızda</span>
+                                <h2 className="text-3xl md:text-4xl font-montserrat-bold text-white">Biz Kimiz?</h2>
                                 <div className="h-1 w-16 bg-orange-500 rounded-full" />
                             </div>
                         </div>
-                        <div className="flex max-lg:flex-col justify-center items-center gap-14 px-16 max-md:px-8">
-                            <div className="reveal-left w-1/3 max-lg:w-4/5 max-xl:w-2/5">
-                                <div className="text-orange-400 text-7xl font-montserrat-black opacity-20 leading-none select-none">"</div>
-                                <p className="text-xl max-md:text-lg font-montserrat-light text-gray-200 leading-relaxed -mt-4">
+                        <div className="flex flex-col lg:flex-row justify-center items-center gap-10 md:gap-14 px-6 md:px-16">
+                            <div className="reveal-left w-full lg:w-1/3 xl:w-2/5 max-w-xl">
+                                <div className="text-orange-400 text-6xl md:text-7xl font-montserrat-black opacity-20 leading-none select-none">"</div>
+                                <p className="text-lg md:text-xl font-montserrat-light text-gray-200 leading-relaxed -mt-4">
                                     Kardeş Hareketi, dünyanın farklı coğrafyalarında yaşayan ihtiyaç sahipleri için dayanışmayı büyütmeyi amaçlayan gönüllü bir iyilik hareketidir.
                                     İyiliğin sınır tanımadığına ve her insanın bir diğerinin kardeşi olduğuna inanıyoruz.
                                 </p>
-                                <p className="text-xl max-md:text-lg font-montserrat-light text-gray-300 leading-relaxed mt-6">
+                                <p className="text-lg md:text-xl font-montserrat-light text-gray-300 leading-relaxed mt-5 md:mt-6">
                                     Çalışmalarımızda özellikle 0–13 yaş arası yetim ve öksüz çocukları önceleyerek onların temel ihtiyaçlarına, eğitimlerine ve güvenli bir çocukluk geçirmelerine destek olmayı hedefliyoruz.
                                 </p>
                                 <button
-                                    onClick={() => setCurrentState(1)}
-                                    className="mt-8 px-6 py-2.5 border border-orange-400 text-orange-400 hover:bg-orange-500 hover:text-white hover:border-orange-500 rounded-full font-montserrat-semibold transition-all duration-300"
+                                    onClick={() => navigate(1)}
+                                    className="mt-6 md:mt-8 px-6 py-2.5 border border-orange-400 text-orange-400 hover:bg-orange-500 hover:text-white hover:border-orange-500 rounded-full font-montserrat-semibold transition-all duration-300 text-sm md:text-base"
                                 >
                                     Misyon & Vizyon →
                                 </button>
                             </div>
-                            <div className="reveal-right w-1/3 max-xl:w-2/5 max-lg:w-4/5 h-[520px] rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10">
+                            <div className="reveal-right w-full lg:w-1/3 xl:w-2/5 max-w-xl h-[320px] md:h-[480px] lg:h-[520px] rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10">
                                 <img
                                     src={siteImages.home_about}
                                     alt="Kardeş Hareketi"
@@ -242,16 +306,16 @@ export default function Main() {
                     </section>
 
                     {/* FALİYETLERİMİZ */}
-                    <section id="actions" className="py-24 max-md:py-16 bg-gray-50">
-                        <div className="flex flex-col items-center mb-14 reveal">
-                            <span className="text-orange-500 text-sm font-montserrat-semibold tracking-widest uppercase mb-2">Ne Yapıyoruz?</span>
-                            <h2 className="text-4xl font-montserrat-bold text-gray-800">Faaliyetlerimiz</h2>
+                    <section id="actions" className="py-16 md:py-24 bg-gray-50">
+                        <div className="flex flex-col items-center mb-10 md:mb-14 reveal px-4">
+                            <span className="text-orange-500 text-xs md:text-sm font-montserrat-semibold tracking-widest uppercase mb-2">Ne Yapıyoruz?</span>
+                            <h2 className="text-3xl md:text-4xl font-montserrat-bold text-gray-800">Faaliyetlerimiz</h2>
                             <div className="h-1 w-16 bg-orange-500 rounded-full mt-3" />
                         </div>
 
                         <div
-                            className="flex items-stretch gap-6 overflow-x-auto pb-6 px-12 max-md:px-6"
-                            style={{ scrollSnapType: "x mandatory" }}
+                            className="flex items-stretch gap-4 md:gap-6 overflow-x-auto pb-6 px-6 md:px-12"
+                            style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}
                         >
                             {Cards.map((card, index) => (
                                 <div
@@ -264,26 +328,22 @@ export default function Main() {
                                         setCurrentImageIndex(0);
                                         setIsModalOpen(true);
                                     }}
-                                    className="relative w-[280px] h-[400px] rounded-2xl overflow-hidden cursor-pointer flex-shrink-0 shadow-lg group"
+                                    className="relative w-[240px] md:w-[280px] h-[360px] md:h-[400px] rounded-2xl overflow-hidden cursor-pointer flex-shrink-0 shadow-lg group"
                                     style={{ scrollSnapAlign: "center" }}
                                 >
-                                    {/* Arka plan görsel */}
                                     <img
                                         src={card.images.image1}
                                         alt={card.title}
                                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                     />
-                                    {/* Gradient overlay */}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                                    {/* Hover overlay */}
                                     <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-all duration-500" />
-                                    {/* Alt içerik */}
-                                    <div className="absolute bottom-0 left-0 right-0 p-5 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
-                                        <h3 className="text-white font-montserrat-bold text-xl mb-2">{card.title}</h3>
-                                        <p className="text-gray-200 text-sm font-montserrat-light leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-400 max-h-0 group-hover:max-h-32 overflow-hidden">
+                                    <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                                        <h3 className="text-white font-montserrat-bold text-lg md:text-xl mb-2">{card.title}</h3>
+                                        <p className="text-gray-200 text-xs md:text-sm font-montserrat-light leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-400 max-h-0 group-hover:max-h-32 overflow-hidden">
                                             {card.content}
                                         </p>
-                                        <div className="mt-3 inline-flex items-center gap-1 text-orange-400 text-sm font-montserrat-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-400">
+                                        <div className="mt-2 md:mt-3 inline-flex items-center gap-1 text-orange-400 text-xs md:text-sm font-montserrat-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-400">
                                             Detayları Gör →
                                         </div>
                                     </div>
@@ -296,48 +356,48 @@ export default function Main() {
                             open={isModalOpen}
                             onCancel={handleCancel}
                             centered
-                            zIndex={10}
+                            zIndex={100}
                             footer={[<Button key="cancel" onClick={handleCancel}>Kapat</Button>]}
                         >
-                            <div className="flex flex-col items-center p-4 gap-4">
+                            <div className="flex flex-col items-center p-2 md:p-4 gap-4">
                                 <div className="flex w-full gap-3 overflow-x-auto snap-x">
                                     {Object.values(Cards.at(currentIndex).images).map((img, i) => (
                                         <img
                                             key={i}
                                             src={img}
                                             alt={`Fotoğraf ${i + 1}`}
-                                            className="object-cover w-[480px] h-[280px] rounded-xl cursor-zoom-in flex-shrink-0"
+                                            className="object-cover w-[280px] md:w-[480px] h-[200px] md:h-[280px] rounded-xl cursor-zoom-in flex-shrink-0"
                                             onClick={() => { setCurrentImage(img); setCurrentImageIndex(i); setShowFullScreenModal(true); }}
                                         />
                                     ))}
                                 </div>
                                 <div className="w-full">
-                                    <h3 className="text-2xl font-montserrat-bold mb-2">{currentTitle}</h3>
-                                    <p className="text-gray-600 font-montserrat-regular">{currentContent}</p>
+                                    <h3 className="text-xl md:text-2xl font-montserrat-bold mb-2">{currentTitle}</h3>
+                                    <p className="text-gray-600 font-montserrat-regular text-sm md:text-base">{currentContent}</p>
                                 </div>
                             </div>
                         </Modal>
 
                         {showFullScreenModal && (
-                            <Modal open onCancel={closeModal} zIndex={20} width={2000} centered footer={[<Button key="close" onClick={closeModal}>Kapat</Button>]}>
-                                <div className="p-4">
-                                    <img src={currentImage} alt="" className="object-contain w-full h-[600px] rounded-xl" />
+                            <Modal open onCancel={closeModal} zIndex={200} width="95vw" centered footer={[<Button key="close" onClick={closeModal}>Kapat</Button>]}>
+                                <div className="p-2 md:p-4">
+                                    <img src={currentImage} alt="" className="object-contain w-full max-h-[70vh] rounded-xl" />
                                 </div>
                             </Modal>
                         )}
                     </section>
 
                     {/* KATILIM ÇAĞRISI */}
-                    <section className="bg-[#062327] py-20 text-center px-8 reveal">
-                        <h2 className="text-4xl max-md:text-3xl font-montserrat-bold text-white mb-4">
+                    <section className="bg-[#062327] py-16 md:py-20 text-center px-6 md:px-8 reveal">
+                        <h2 className="text-3xl md:text-4xl font-montserrat-bold text-white mb-4">
                             Sen de Bu Kardeşliğe Ortak Ol
                         </h2>
-                        <p className="text-gray-300 font-montserrat-light text-lg max-w-xl mx-auto mb-8">
+                        <p className="text-gray-300 font-montserrat-light text-base md:text-lg max-w-xl mx-auto mb-8">
                             Gönüllü olarak yanımızda yer al, iyiliğin sesine ses kat.
                         </p>
                         <button
-                            onClick={() => setCurrentState(8)}
-                            className="px-10 py-3.5 bg-orange-600 hover:bg-orange-500 active:scale-95 text-white font-montserrat-bold rounded-full shadow-lg transition-all duration-300 hover:scale-105 text-lg"
+                            onClick={() => navigate(8)}
+                            className="px-8 md:px-10 py-3 md:py-3.5 bg-orange-600 hover:bg-orange-500 active:scale-95 text-white font-montserrat-bold rounded-full shadow-lg transition-all duration-300 hover:scale-105 text-base md:text-lg"
                         >
                             Bize Katıl!
                         </button>
@@ -347,20 +407,20 @@ export default function Main() {
 
             {/* Alt sayfalar */}
             {currentState > 0 && currentState < 7 && (
-                <WhoAreWe state={currentState} setCurrentState={setCurrentState} />
+                <WhoAreWe state={currentState} setCurrentState={navigate} />
             )}
             {currentState === 7 && <Contact />}
             {currentState === 8 && <BizeKatil />}
 
             {/* ── FOOTER ── */}
             <footer className="bg-gray-950 text-gray-400">
-                <div className="max-w-7xl mx-auto px-8 py-16">
-                    <div className="grid grid-cols-3 max-md:grid-cols-1 gap-12 pb-12 border-b border-gray-800">
+                <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 md:py-16">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 pb-10 md:pb-12 border-b border-gray-800">
                         {/* Logo & Açıklama */}
                         <div>
                             <div
-                                className="w-16 h-16 cursor-pointer mb-4"
-                                onClick={() => { setCurrentState(0); scrollToSection("main"); }}
+                                className="w-14 h-14 cursor-pointer mb-4"
+                                onClick={() => navigate(0)}
                             >
                                 <Image src={logo} alt="logo" className="w-full" />
                             </div>
@@ -371,14 +431,14 @@ export default function Main() {
 
                         {/* Hızlı Linkler */}
                         <div>
-                            <h4 className="text-white font-montserrat-semibold mb-5 text-sm uppercase tracking-wider">Hızlı Erişim</h4>
-                            <ul className="space-y-3 text-sm">
+                            <h4 className="text-white font-montserrat-semibold mb-4 md:mb-5 text-sm uppercase tracking-wider">Hızlı Erişim</h4>
+                            <ul className="space-y-2 md:space-y-3 text-sm">
                                 {[
-                                    { label: "Ana Sayfa",      action: () => { setCurrentState(0); scrollToSection("main"); } },
-                                    { label: "Biz Kimiz?",     action: () => setCurrentState(1) },
-                                    { label: "Faaliyetlerimiz",action: () => { setCurrentState(0); setTimeout(() => scrollToSection("actions"), 100); } },
-                                    { label: "İletişim",       action: () => setCurrentState(7) },
-                                    { label: "Bize Katıl",     action: () => setCurrentState(8) },
+                                    { label: "Ana Sayfa",       action: () => navigate(0) },
+                                    { label: "Biz Kimiz?",      action: () => navigate(1) },
+                                    { label: "Faaliyetlerimiz", action: () => { navigate(0); setTimeout(() => scrollToSection("actions"), 300); } },
+                                    { label: "İletişim",        action: () => navigate(7) },
+                                    { label: "Bize Katıl",      action: () => navigate(8) },
                                 ].map((link) => (
                                     <li key={link.label}>
                                         <button
@@ -394,30 +454,27 @@ export default function Main() {
 
                         {/* İletişim */}
                         <div>
-                            <h4 className="text-white font-montserrat-semibold mb-5 text-sm uppercase tracking-wider">İletişim</h4>
-                            <ul className="space-y-3 text-sm">
+                            <h4 className="text-white font-montserrat-semibold mb-4 md:mb-5 text-sm uppercase tracking-wider">İletişim</h4>
+                            <ul className="space-y-2 md:space-y-3 text-sm">
                                 <li>📞 +90 541 479 88 09</li>
                                 <li>✉️ kardes@hareketidernegi.com</li>
                                 <li>📍 Mehmet Akif Mah. Fatih Bulvarı No:147, Sultanbeyli / İstanbul</li>
                             </ul>
-                            <div className="flex gap-4 mt-6">
-                                <a href="#" className="w-10 h-10 bg-white/5 hover:bg-orange-600 rounded-full flex items-center justify-center text-lg transition-all duration-300">
+                            <div className="flex gap-4 mt-5 md:mt-6">
+                                <a href="https://www.instagram.com/kardeshareketi?igsh=ejIyYW41cWpucG85" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white/5 hover:bg-orange-600 rounded-full flex items-center justify-center text-lg transition-all duration-300">
                                     <FaInstagram />
                                 </a>
                                 <a href="#" className="w-10 h-10 bg-white/5 hover:bg-orange-600 rounded-full flex items-center justify-center text-lg transition-all duration-300">
                                     <FaYoutube />
                                 </a>
-                                <a href="#" className="w-10 h-10 bg-white/5 hover:bg-orange-600 rounded-full flex items-center justify-center text-lg transition-all duration-300">
-                                    <FaXTwitter />
-                                </a>
                             </div>
                         </div>
                     </div>
 
-                    <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+                    <div className="pt-6 md:pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
                         <p>© 2024 Kardeş Hareketi Derneği. Tüm hakları saklıdır.</p>
                         <button
-                            onClick={() => setCurrentState(4)}
+                            onClick={() => navigate(4)}
                             className="hover:text-orange-400 transition-colors duration-200"
                         >
                             KVKK & Gizlilik Politikası
