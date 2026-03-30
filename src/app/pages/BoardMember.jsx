@@ -3,28 +3,34 @@ import { useState, useEffect } from "react";
 
 const DEFAULT_MEMBERS = [
     {
-        name: "Talha Karaalioğlu",
-        title: "Başkan",
-        imageKey: "board_talha",
+        name: "Enis Rahman Zencir",
+        title: "Yönetim Kurulu Başkanı",
+        imageKey: "board_enis",
         image: "https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg",
     },
     {
-        name: "Ahmet Yılmaz",
-        title: "Başkan Yardımcısı",
-        imageKey: "board_ahmet",
-        image: "https://img.freepik.com/free-photo/lifestyle-people-emotions-casual-concept-confident-nice-smiling-asian-woman-cross-arms-chest-confident-ready-help-listening-coworkers-taking-part-conversation_1258-59335.jpg",
+        name: "Salih Şencan",
+        title: "Yönetim Kurulu Başkan Yardımcısı",
+        imageKey: "board_salih",
+        image: "https://img.freepik.com/premium-photo/portrait-young-happy-smiling-handsome-man-isolated-white_1258-5418.jpg",
     },
     {
-        name: "Veli Demir",
-        title: "Yönetim Kurulu Üyesi",
-        imageKey: "board_veli",
+        name: "Emirhan Kuşaksız",
+        title: "Dernek Sekreteri",
+        imageKey: "board_emirhan",
         image: "https://img.freepik.com/premium-photo/attractive-smiling-young-man-glasses-studio-headshot_656932-6164.jpg",
     },
     {
-        name: "Mehmet Yıldırım",
+        name: "Malik Ezber",
         title: "Yönetim Kurulu Üyesi",
-        imageKey: "board_mehmet",
-        image: "https://img.freepik.com/premium-photo/portrait-young-happy-smiling-handsome-man-isolated-white_1258-5418.jpg",
+        imageKey: "board_malik",
+        image: "https://img.freepik.com/free-photo/artist-white_1368-3546.jpg",
+    },
+    {
+        name: "Yahya Arıtuyuk",
+        title: "Yönetim Kurulu Üyesi",
+        imageKey: "board_yahya",
+        image: "https://img.freepik.com/free-photo/medium-shot-smiley-man-posing_23-2149915892.jpg",
     },
     {
         name: "Hamza Kabakçılı",
@@ -33,10 +39,34 @@ const DEFAULT_MEMBERS = [
         image: "https://iili.io/F8sL6fn.jpg",
     },
     {
-        name: "Enis Rahman Zencir",
+        name: "Mürsel Ezber",
         title: "Yönetim Kurulu Üyesi",
-        imageKey: "board_enis",
-        image: "https://img.freepik.com/free-photo/artist-white_1368-3546.jpg",
+        imageKey: "board_mursel",
+        image: "https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg",
+    },
+    {
+        name: "Talha Karaalioğlu",
+        title: "Yönetim Kurulu Üyesi",
+        imageKey: "board_talha",
+        image: "https://img.freepik.com/free-photo/lifestyle-people-emotions-casual-concept-confident-nice-smiling-asian-woman-cross-arms-chest-confident-ready-help-listening-coworkers-taking-part-conversation_1258-59335.jpg",
+    },
+    {
+        name: "Yusuf Arıtuyuk",
+        title: "Yönetim Kurulu Üyesi",
+        imageKey: "board_yusuf",
+        image: "https://img.freepik.com/free-photo/handsome-confident-smiling-man-with-hands-crossed-chest_176420-18743.jpg",
+    },
+    {
+        name: "Ahmet Emin Bayrakdar",
+        title: "Yönetim Kurulu Üyesi",
+        imageKey: "board_ahmet",
+        image: "https://img.freepik.com/free-photo/cheerful-curly-business-man-running-modern-office_1163-2523.jpg",
+    },
+    {
+        name: "Ömer Küçükşahin",
+        title: "Yönetim Kurulu Üyesi",
+        imageKey: "board_omer",
+        image: "https://img.freepik.com/free-photo/portrait-smiling-blonde-man_23-2148316529.jpg",
     },
 ];
 

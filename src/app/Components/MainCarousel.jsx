@@ -11,7 +11,7 @@ const DEFAULT_SLIDES = [
 
 export default function MainCarousel({ state }) {
     const overlayClass = "absolute inset-0 bg-gradient-to-t from-[#062327] via-black/40 to-black/10 opacity-90";
-    const heightClass = state !== 0 ? "h-[280px] md:h-[400px]" : "h-[500px] md:h-[700px]";
+    const heightClass = state !== 0 ? "h-[260px] md:h-[400px]" : "h-[calc(100svh-64px)] md:h-[700px]";
 
     const [slides, setSlides] = useState(DEFAULT_SLIDES);
 

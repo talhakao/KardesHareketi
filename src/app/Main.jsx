@@ -212,48 +212,66 @@ export default function Main() {
 
             {/* ── MOBİL MENÜ OVERLAY ── */}
             <div
-                className={`fixed inset-0 z-40 md:hidden flex flex-col items-center justify-center gap-2 transition-all duration-400 ${
+                className={`fixed inset-0 z-40 md:hidden flex flex-col transition-all duration-300 ${
                     menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
                 }`}
                 style={{ background: "rgba(6,35,39,0.98)", backdropFilter: "blur(8px)" }}
             >
-                {mobileNavItems.map((item, i) => (
+                {/* Üst bar: logo + kapat */}
+                <div className="flex items-center justify-between px-5 h-16 border-b border-white/10 flex-shrink-0">
+                    <Image src={logo} alt="logo" className="w-12 h-12" />
                     <button
-                        key={i}
-                        onClick={item.action}
-                        className={`text-2xl font-montserrat-bold text-gray-200 hover:text-orange-400 transition-all duration-300 py-3 px-8 rounded-xl hover:bg-white/5 w-64 text-center ${
-                            menuOpen ? "anim-fadeInUp" : ""
-                        }`}
-                        style={{ animationDelay: `${i * 0.05}s` }}
+                        onClick={() => setMenuOpen(false)}
+                        className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 text-white text-xl hover:bg-white/20 transition"
                     >
-                        {item.label}
+                        ✕
                     </button>
-                ))}
-                <button
-                    onClick={() => navigate(8)}
-                    className="mt-4 px-10 py-3.5 bg-orange-600 hover:bg-orange-500 text-white font-montserrat-bold rounded-full shadow-lg text-lg transition-all duration-300 hover:scale-105 anim-fadeInUp"
-                    style={{ animationDelay: `${mobileNavItems.length * 0.05}s` }}
-                >
-                    Bize Katıl!
-                </button>
+                </div>
+
+                {/* Nav linkleri */}
+                <nav className="flex-1 flex flex-col justify-center px-6 gap-1 overflow-y-auto py-4">
+                    {mobileNavItems.map((item, i) => (
+                        <button
+                            key={i}
+                            onClick={item.action}
+                            className={`flex items-center gap-3 w-full text-left px-4 py-3.5 rounded-xl text-gray-200 hover:text-orange-400 hover:bg-white/5 transition-all duration-200 font-montserrat-semibold text-base ${
+                                menuOpen ? "anim-fadeInUp" : ""
+                            }`}
+                            style={{ animationDelay: `${i * 0.04}s` }}
+                        >
+                            <span className="w-1.5 h-1.5 rounded-full bg-orange-500 flex-shrink-0" />
+                            {item.label}
+                        </button>
+                    ))}
+                </nav>
+
+                {/* Alt buton */}
+                <div className="px-6 pb-8 pt-2 border-t border-white/10 flex-shrink-0">
+                    <button
+                        onClick={() => navigate(8)}
+                        className="w-full py-3.5 bg-orange-600 hover:bg-orange-500 text-white font-montserrat-bold rounded-xl shadow-lg text-base transition-all duration-300 active:scale-95"
+                    >
+                        Bize Katıl!
+                    </button>
+                </div>
             </div>
 
             {/* ── HERO TEXT OVERLAY ── */}
-            <div className={`absolute w-full flex justify-end items-center z-10 ${currentState !== 0 ? "pt-44 md:pt-52" : "pt-52 md:pt-80"}`}>
-                <div className="absolute z-10 bg-gradient-radial from-black to-transparent h-[300px] w-[700px] rounded-full mr-16 opacity-80 blur-xl" />
-                <div className={`absolute z-20 flex flex-col items-end justify-center px-6 md:px-12 mx-4 md:mx-6 ${currentState !== 0 ? "mt-8 md:mt-16" : ""}`}>
-                    <span className={`anim-fadeInUp anim-d2 bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent select-none font-montserrat-bold ${currentState !== 0 ? "text-3xl md:text-4xl" : "text-4xl md:text-6xl"}`}>
+            <div className={`absolute w-full flex justify-end items-center z-10 ${currentState !== 0 ? "pt-[160px] md:pt-52" : "pt-[45svh] md:pt-80"}`}>
+                <div className="absolute z-10 bg-gradient-radial from-black to-transparent h-[200px] md:h-[300px] w-[90vw] md:w-[700px] rounded-full mr-4 md:mr-16 opacity-80 blur-xl" />
+                <div className={`absolute z-20 flex flex-col items-end justify-center px-5 md:px-12 mx-2 md:mx-6 ${currentState !== 0 ? "mt-0 md:mt-16" : ""}`}>
+                    <span className={`anim-fadeInUp anim-d2 bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent select-none font-montserrat-bold ${currentState !== 0 ? "text-xl md:text-4xl" : "text-2xl md:text-6xl"}`}>
                         Kardeş Hareketi
                     </span>
-                    <div className={`anim-fadeInUp anim-d3 font-light text-right text-gray-200 font-montserrat-light select-none ${currentState !== 0 ? "text-2xl md:text-3xl" : "text-3xl md:text-5xl mt-3 md:mt-4"}`}>
-                        Burada Bir{" "}
-                        <span style={{ color: "#60a5fa" }}>Kardeş'in</span>{" "}
-                        Var
+                    <div className={`anim-fadeInUp anim-d3 text-right font-montserrat-light select-none ${currentState !== 0 ? "text-lg md:text-3xl" : "text-xl md:text-5xl mt-1.5 md:mt-4"}`}>
+                        <span className="text-gray-200">Burada Bir{" "}</span>
+                        <span className="bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent font-montserrat-bold">Kardeş'in</span>
+                        <span className="text-gray-200">{" "}Var</span>
                     </div>
                     {currentState === 0 && (
                         <button
-                            onClick={() => navigate(1)}
-                            className="anim-fadeInUp anim-d4 mt-5 md:mt-6 px-6 md:px-7 py-2.5 md:py-3 bg-orange-600 hover:bg-orange-500 active:scale-95 text-white font-montserrat-bold rounded-full shadow-lg transition-all duration-300 hover:scale-105 text-sm md:text-base"
+                            onClick={() => scrollToSection("about")}
+                            className="anim-fadeInUp anim-d4 mt-3 md:mt-6 px-5 md:px-7 py-2 md:py-3 bg-orange-600 hover:bg-orange-500 active:scale-95 text-white font-montserrat-bold rounded-full shadow-lg transition-all duration-300 hover:scale-105 text-xs md:text-base"
                         >
                             Biz Kimiz?
                         </button>
@@ -271,7 +289,7 @@ export default function Main() {
                 <div>
                     {/* BİZ KİMİZ */}
                     <section id="about" className="bg-[#062327] py-16 md:py-24 overflow-hidden">
-                        <div className="flex items-center justify-center mb-10 md:mb-14">
+                        <div className="flex items-center justify-center mb-10 md:mb-14 reveal">
                             <div className="flex flex-col items-center gap-3">
                                 <span className="text-orange-400 text-xs md:text-sm font-montserrat-semibold tracking-widest uppercase">Hakkımızda</span>
                                 <h2 className="text-3xl md:text-4xl font-montserrat-bold text-white">Biz Kimiz?</h2>
