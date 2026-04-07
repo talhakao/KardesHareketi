@@ -31,9 +31,10 @@ export async function POST(request) {
     const filename = `site-images/${imageKey}-${Date.now()}.${ext}`;
     const blob = await put(filename, file, { access: 'public' });
 
-    await prisma.siteImage.update({
+    await prisma.siteImage.upsert({
       where: { key: imageKey },
-      data: { path: blob.url },
+      update: { path: blob.url },
+      create: { key: imageKey, label: imageKey, path: blob.url },
     });
 
     return NextResponse.json({ success: true, path: blob.url });

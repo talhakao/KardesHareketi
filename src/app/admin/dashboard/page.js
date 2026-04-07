@@ -40,12 +40,17 @@ const IMAGE_GROUPS = [
   {
     group: "Yönetim Kurulu Fotoğrafları",
     keys: [
-      "board_talha",
-      "board_ahmet",
-      "board_veli",
-      "board_mehmet",
-      "board_hamza",
       "board_enis",
+      "board_salih",
+      "board_emirhan",
+      "board_malik",
+      "board_yahya",
+      "board_hamza",
+      "board_mursel",
+      "board_talha",
+      "board_yusuf",
+      "board_ahmet",
+      "board_omer",
     ],
   },
 ];

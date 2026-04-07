@@ -40,12 +40,17 @@ async function main() {
     { key: 'activity_eglence_1', label: 'Eğlenceli Faaliyetler - Fotoğraf 1', path: 'https://i.imghippo.com/files/FEX3798xuw.jpeg' },
     { key: 'activity_eglence_2', label: 'Eğlenceli Faaliyetler - Fotoğraf 2', path: 'https://i.imghippo.com/files/mac6312nE.jpeg' },
     { key: 'activity_eglence_3', label: 'Eğlenceli Faaliyetler - Fotoğraf 3', path: 'https://i.imghippo.com/files/OsIO2212kJs.jpeg' },
-    { key: 'board_talha', label: 'Yönetim Kurulu - Talha Karaalioğlu', path: 'https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg' },
-    { key: 'board_ahmet', label: 'Yönetim Kurulu - Ahmet Yılmaz', path: 'https://img.freepik.com/free-photo/lifestyle-people-emotions-casual-concept-confident-nice-smiling-asian-woman-cross-arms-chest-confident-ready-help-listening-coworkers-taking-part-conversation_1258-59335.jpg' },
-    { key: 'board_veli', label: 'Yönetim Kurulu - Veli Demir', path: 'https://img.freepik.com/premium-photo/attractive-smiling-young-man-glasses-studio-headshot_656932-6164.jpg' },
-    { key: 'board_mehmet', label: 'Yönetim Kurulu - Mehmet Yıldırım', path: 'https://img.freepik.com/premium-photo/portrait-young-happy-smiling-handsome-man-isolated-white_1258-5418.jpg' },
-    { key: 'board_hamza', label: 'Yönetim Kurulu - Hamza Kabakçılı', path: 'https://iili.io/F8sL6fn.jpg' },
-    { key: 'board_enis', label: 'Yönetim Kurulu - Enis Rahman Zencir', path: 'https://img.freepik.com/free-photo/artist-white_1368-3546.jpg' },
+    { key: 'board_enis',    label: 'Yönetim Kurulu - Enis Rahman Zencir',   path: 'https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg' },
+    { key: 'board_salih',   label: 'Yönetim Kurulu - Salih Şencan',         path: 'https://img.freepik.com/premium-photo/portrait-young-happy-smiling-handsome-man-isolated-white_1258-5418.jpg' },
+    { key: 'board_emirhan', label: 'Yönetim Kurulu - Emirhan Kuşaksız',      path: 'https://img.freepik.com/premium-photo/attractive-smiling-young-man-glasses-studio-headshot_656932-6164.jpg' },
+    { key: 'board_malik',   label: 'Yönetim Kurulu - Malik Ezber',           path: 'https://img.freepik.com/free-photo/artist-white_1368-3546.jpg' },
+    { key: 'board_yahya',   label: 'Yönetim Kurulu - Yahya Arıtuyuk',        path: 'https://img.freepik.com/free-photo/medium-shot-smiley-man-posing_23-2149915892.jpg' },
+    { key: 'board_hamza',   label: 'Yönetim Kurulu - Hamza Kabakçılı',       path: 'https://iili.io/F8sL6fn.jpg' },
+    { key: 'board_mursel',  label: 'Yönetim Kurulu - Mürsel Ezber',          path: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg' },
+    { key: 'board_talha',   label: 'Yönetim Kurulu - Talha Karaalioğlu',     path: 'https://img.freepik.com/free-photo/lifestyle-people-emotions-casual-concept-confident-nice-smiling-asian-woman-cross-arms-chest-confident-ready-help-listening-coworkers-taking-part-conversation_1258-59335.jpg' },
+    { key: 'board_yusuf',   label: 'Yönetim Kurulu - Yusuf Arıtuyuk',        path: 'https://img.freepik.com/free-photo/handsome-confident-smiling-man-with-hands-crossed-chest_176420-18743.jpg' },
+    { key: 'board_ahmet',   label: 'Yönetim Kurulu - Ahmet Emin Bayrakdar',  path: 'https://img.freepik.com/free-photo/cheerful-curly-business-man-running-modern-office_1163-2523.jpg' },
+    { key: 'board_omer',    label: 'Yönetim Kurulu - Ömer Küçükşahin',       path: 'https://img.freepik.com/free-photo/portrait-smiling-blonde-man_23-2148316529.jpg' },
   ];
 
   for (const image of images) {
