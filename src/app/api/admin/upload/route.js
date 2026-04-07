@@ -2,8 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
-import { writeFile, mkdir } from 'fs/promises';
-import path from 'path';
+import { put } from '@vercel/blob';
 
 export async function POST(request) {
   const session = await getServerSession(authOptions);
@@ -17,16 +16,9 @@ export async function POST(request) {
     const imageKey = formData.get('key');
 
     if (!file || !imageKey) {
-      return NextResponse.json(
-        { error: 'Dosya ve anahtar gerekli.' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Dosya ve anahtar gerekli.' }, { status: 400 });
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    // Dosya uzantısını al
     const ext = file.name.split('.').pop().toLowerCase();
     const allowedExt = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
     if (!allowedExt.includes(ext)) {
@@ -36,25 +28,15 @@ export async function POST(request) {
       );
     }
 
-    // Kaydetme dizinini hazırla
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-    await mkdir(uploadDir, { recursive: true });
+    const filename = `site-images/${imageKey}-${Date.now()}.${ext}`;
+    const blob = await put(filename, file, { access: 'public' });
 
-    // Benzersiz dosya adı oluştur
-    const filename = `${imageKey}-${Date.now()}.${ext}`;
-    const filepath = path.join(uploadDir, filename);
-
-    await writeFile(filepath, buffer);
-
-    const imagePath = `/uploads/${filename}`;
-
-    // Veritabanını güncelle
     await prisma.siteImage.update({
       where: { key: imageKey },
-      data: { path: imagePath },
+      data: { path: blob.url },
     });
 
-    return NextResponse.json({ success: true, path: imagePath });
+    return NextResponse.json({ success: true, path: blob.url });
   } catch (error) {
     console.error('Upload hatası:', error);
     return NextResponse.json({ error: 'Yükleme başarısız.' }, { status: 500 });
