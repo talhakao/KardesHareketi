@@ -71,7 +71,7 @@ const DEFAULT_MEMBERS = [
 ];
 
 export default function BoardMember() {
-    const [members, setMembers] = useState(DEFAULT_MEMBERS);
+    const [members, setMembers] = useState(null);
 
     useEffect(() => {
         const keys = DEFAULT_MEMBERS.map((m) => m.imageKey).join(",");
@@ -79,13 +79,21 @@ export default function BoardMember() {
             .then((r) => r.json())
             .then((data) => {
                 if (data && typeof data === "object") {
-                    setMembers((prev) =>
-                        prev.map((m) => ({ ...m, image: data[m.imageKey] || m.image }))
-                    );
+                    setMembers(DEFAULT_MEMBERS.map((m) => ({ ...m, image: data[m.imageKey] || m.image })));
+                } else {
+                    setMembers(DEFAULT_MEMBERS);
                 }
             })
-            .catch(() => {});
+            .catch(() => setMembers(DEFAULT_MEMBERS));
     }, []);
+
+    if (!members) return (
+        <div className="grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-6">
+            {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="rounded-2xl bg-gray-100 animate-pulse h-56" />
+            ))}
+        </div>
+    );
 
     const [baskan, ...diger] = members;
 

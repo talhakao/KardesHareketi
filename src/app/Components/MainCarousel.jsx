@@ -13,7 +13,7 @@ export default function MainCarousel({ state }) {
     const overlayClass = "absolute inset-0 bg-gradient-to-t from-[#062327] via-black/40 to-black/10 opacity-90";
     const heightClass = state !== 0 ? "h-[260px] md:h-[400px]" : "h-[calc(100svh-64px)] md:h-[700px]";
 
-    const [slides, setSlides] = useState(DEFAULT_SLIDES);
+    const [slides, setSlides] = useState(null); // null = yükleniyor
 
     useEffect(() => {
         fetch("/api/images?keys=carousel_1,carousel_2,carousel_3,carousel_4")
@@ -26,10 +26,21 @@ export default function MainCarousel({ state }) {
                         { src: data.carousel_3 || DEFAULT_SLIDES[2].src, alt: "Carousel Slayt 3" },
                         { src: data.carousel_4 || DEFAULT_SLIDES[3].src, alt: "Carousel Slayt 4" },
                     ]);
+                } else {
+                    setSlides(DEFAULT_SLIDES);
                 }
             })
-            .catch(() => {});
+            .catch(() => setSlides(DEFAULT_SLIDES));
     }, []);
+
+    // Yüklenirken koyu placeholder göster
+    if (!slides) {
+        return (
+            <div className={`w-full ${heightClass} bg-[#062327] relative`}>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#062327] via-black/40 to-black/10 opacity-90" />
+            </div>
+        );
+    }
 
     return (
         <div className="w-full">

@@ -56,7 +56,7 @@ function useReveal(currentState) {
 }
 
 export default function Main() {
-    const [siteImages, setSiteImages] = useState(DEFAULT_IMAGES);
+    const [siteImages, setSiteImages] = useState(null); // null = yükleniyor
     const [currentState, setCurrentState] = useState(0);
     const [menuOpen, setMenuOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -74,10 +74,12 @@ export default function Main() {
             .then((r) => r.json())
             .then((data) => {
                 if (data && typeof data === "object") {
-                    setSiteImages((prev) => ({ ...prev, ...data }));
+                    setSiteImages({ ...DEFAULT_IMAGES, ...data });
+                } else {
+                    setSiteImages(DEFAULT_IMAGES);
                 }
             })
-            .catch(() => {});
+            .catch(() => setSiteImages(DEFAULT_IMAGES));
     }, []);
 
     const navigate = (state) => {
@@ -86,36 +88,38 @@ export default function Main() {
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
+    const imgs = siteImages || DEFAULT_IMAGES;
+
     const Cards = [
         {
             title: "Üşüme Kardeşim",
             content: "İhtiyaç sahibi kardeşlerimize mont, bot, eldiven, atkı ve bere yardımında bulunuyoruz.",
-            images: { image1: siteImages.activity_usume_1, image2: siteImages.activity_usume_2, image3: siteImages.activity_usume_3 },
+            images: { image1: imgs.activity_usume_1, image2: imgs.activity_usume_2, image3: imgs.activity_usume_3 },
         },
         {
             title: "Kırtasiye Yardımı",
             content: "İhtiyaç sahibi öğrencilerimize okul öncesi kırtasiye desteği sağlıyoruz.",
-            images: { image1: siteImages.activity_kirtasiye_1, image2: siteImages.activity_kirtasiye_2, image3: siteImages.activity_kirtasiye_3 },
+            images: { image1: imgs.activity_kirtasiye_1, image2: imgs.activity_kirtasiye_2, image3: imgs.activity_kirtasiye_3 },
         },
         {
             title: "Yardım Kartı",
             content: "Yardıma muhtaç ailelere ihtiyaçlarını kendileri karşılayabilmeleri için yardım kartı desteği veriyoruz.",
-            images: { image1: siteImages.activity_yardim_kart_1, image2: siteImages.activity_yardim_kart_2, image3: siteImages.activity_yardim_kart_3 },
+            images: { image1: imgs.activity_yardim_kart_1, image2: imgs.activity_yardim_kart_2, image3: imgs.activity_yardim_kart_3 },
         },
         {
             title: "Kardeş Şenliği",
             content: "Her bahar yetim ve öksüz kardeşlerimizle bir araya gelerek Kardeş Şenliği düzenliyoruz.",
-            images: { image1: siteImages.activity_senligi_1, image2: siteImages.activity_senligi_2, image3: siteImages.activity_senligi_3 },
+            images: { image1: imgs.activity_senligi_1, image2: imgs.activity_senligi_2, image3: imgs.activity_senligi_3 },
         },
         {
             title: "Kurban Faaliyetleri",
             content: "Farz ve nafile kurbanlarınızı ihtiyaç sahiplerine ulaştırıyoruz.",
-            images: { image1: siteImages.activity_kurban_1, image2: siteImages.activity_kurban_2, image3: siteImages.activity_kurban_3 },
+            images: { image1: imgs.activity_kurban_1, image2: imgs.activity_kurban_2, image3: imgs.activity_kurban_3 },
         },
         {
             title: "Eğlenceli Faaliyetler",
             content: "Kardeşlerimizin mutluluğu için düzenli eğlenceli etkinlikler düzenliyoruz.",
-            images: { image1: siteImages.activity_eglence_1, image2: siteImages.activity_eglence_2, image3: siteImages.activity_eglence_3 },
+            images: { image1: imgs.activity_eglence_1, image2: imgs.activity_eglence_2, image3: imgs.activity_eglence_3 },
         },
     ];
 
@@ -315,7 +319,7 @@ export default function Main() {
                             </div>
                             <div className="reveal-right w-full lg:w-1/3 xl:w-2/5 max-w-xl h-[320px] md:h-[480px] lg:h-[520px] rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10">
                                 <img
-                                    src={siteImages.home_about}
+                                    src={imgs.home_about}
                                     alt="Kardeş Hareketi"
                                     className="object-cover w-full h-full hover:scale-105 transition-transform duration-700"
                                 />
