@@ -18,7 +18,7 @@ export async function GET(request) {
         result[img.key] = img.path;
       });
       return NextResponse.json(result, {
-        headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
+        headers: { 'Cache-Control': 'no-store' },
       });
     }
 
@@ -30,7 +30,7 @@ export async function GET(request) {
       result[img.key] = img.path;
     });
     return NextResponse.json(result, {
-      headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
+      headers: { 'Cache-Control': 'no-store' },
     });
   } catch (error) {
     console.error('Images API hatası:', error);
