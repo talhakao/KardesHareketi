@@ -162,6 +162,12 @@ export default function AdminDashboard() {
           ...prev,
           [imageKey]: { ...prev[imageKey], path: data.path },
         }));
+        // Ziyaretçi cache'ini temizle — yeni görsel anında yansısın
+        try {
+          localStorage.removeItem("site_images_main");
+          localStorage.removeItem("site_images_carousel");
+          localStorage.removeItem("site_images_board");
+        } catch {}
         showToast("success", "Görsel güncellendi.");
       } else {
         showToast("error", data.error || "Yükleme başarısız.");
