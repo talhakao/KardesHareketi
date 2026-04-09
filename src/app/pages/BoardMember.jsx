@@ -74,17 +74,29 @@ export default function BoardMember() {
     const [members, setMembers] = useState(null);
 
     useEffect(() => {
+        const CACHE_KEY = "site_images_board";
+        const buildMembers = (data) =>
+            DEFAULT_MEMBERS.map((m) => ({ ...m, image: data[m.imageKey] || m.image }));
+
+        // Cache varsa anında göster
+        try {
+            const cached = localStorage.getItem(CACHE_KEY);
+            if (cached) setMembers(buildMembers(JSON.parse(cached)));
+        } catch {}
+
+        // Arka planda taze veri çek
         const keys = DEFAULT_MEMBERS.map((m) => m.imageKey).join(",");
         fetch(`/api/images?keys=${keys}`)
             .then((r) => r.json())
             .then((data) => {
                 if (data && typeof data === "object") {
-                    setMembers(DEFAULT_MEMBERS.map((m) => ({ ...m, image: data[m.imageKey] || m.image })));
+                    try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch {}
+                    setMembers(buildMembers(data));
                 } else {
-                    setMembers(DEFAULT_MEMBERS);
+                    setMembers((s) => s || DEFAULT_MEMBERS);
                 }
             })
-            .catch(() => setMembers(DEFAULT_MEMBERS));
+            .catch(() => setMembers((s) => s || DEFAULT_MEMBERS));
     }, []);
 
     if (!members) return (

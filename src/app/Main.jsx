@@ -70,16 +70,25 @@ export default function Main() {
     useReveal(currentState);
 
     useEffect(() => {
+        const CACHE_KEY = "site_images_main";
+        // Cache varsa anında göster
+        try {
+            const cached = localStorage.getItem(CACHE_KEY);
+            if (cached) setSiteImages({ ...DEFAULT_IMAGES, ...JSON.parse(cached) });
+        } catch {}
+
+        // Arka planda taze veri çek
         fetch("/api/images")
             .then((r) => r.json())
             .then((data) => {
                 if (data && typeof data === "object") {
+                    try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch {}
                     setSiteImages({ ...DEFAULT_IMAGES, ...data });
                 } else {
-                    setSiteImages(DEFAULT_IMAGES);
+                    setSiteImages((s) => s || DEFAULT_IMAGES);
                 }
             })
-            .catch(() => setSiteImages(DEFAULT_IMAGES));
+            .catch(() => setSiteImages((s) => s || DEFAULT_IMAGES));
     }, []);
 
     const navigate = (state) => {

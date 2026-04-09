@@ -16,21 +16,32 @@ export default function MainCarousel({ state }) {
     const [slides, setSlides] = useState(null); // null = yükleniyor
 
     useEffect(() => {
+        const CACHE_KEY = "site_images_carousel";
+        const buildSlides = (data) => [
+            { src: data.carousel_1 || DEFAULT_SLIDES[0].src, alt: "Carousel Slayt 1" },
+            { src: data.carousel_2 || DEFAULT_SLIDES[1].src, alt: "Carousel Slayt 2" },
+            { src: data.carousel_3 || DEFAULT_SLIDES[2].src, alt: "Carousel Slayt 3" },
+            { src: data.carousel_4 || DEFAULT_SLIDES[3].src, alt: "Carousel Slayt 4" },
+        ];
+
+        // Cache varsa anında göster
+        try {
+            const cached = localStorage.getItem(CACHE_KEY);
+            if (cached) setSlides(buildSlides(JSON.parse(cached)));
+        } catch {}
+
+        // Arka planda taze veri çek
         fetch("/api/images?keys=carousel_1,carousel_2,carousel_3,carousel_4")
             .then((r) => r.json())
             .then((data) => {
                 if (data && typeof data === "object") {
-                    setSlides([
-                        { src: data.carousel_1 || DEFAULT_SLIDES[0].src, alt: "Carousel Slayt 1" },
-                        { src: data.carousel_2 || DEFAULT_SLIDES[1].src, alt: "Carousel Slayt 2" },
-                        { src: data.carousel_3 || DEFAULT_SLIDES[2].src, alt: "Carousel Slayt 3" },
-                        { src: data.carousel_4 || DEFAULT_SLIDES[3].src, alt: "Carousel Slayt 4" },
-                    ]);
+                    try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch {}
+                    setSlides(buildSlides(data));
                 } else {
-                    setSlides(DEFAULT_SLIDES);
+                    setSlides((s) => s || DEFAULT_SLIDES);
                 }
             })
-            .catch(() => setSlides(DEFAULT_SLIDES));
+            .catch(() => setSlides((s) => s || DEFAULT_SLIDES));
     }, []);
 
     // Yüklenirken koyu placeholder göster

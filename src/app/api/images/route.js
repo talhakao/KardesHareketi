@@ -17,7 +17,9 @@ export async function GET(request) {
       images.forEach((img) => {
         result[img.key] = img.path;
       });
-      return NextResponse.json(result);
+      return NextResponse.json(result, {
+        headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
+      });
     }
 
     const images = await prisma.siteImage.findMany({
@@ -27,7 +29,9 @@ export async function GET(request) {
     images.forEach((img) => {
       result[img.key] = img.path;
     });
-    return NextResponse.json(result);
+    return NextResponse.json(result, {
+      headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
+    });
   } catch (error) {
     console.error('Images API hatası:', error);
     return NextResponse.json({}, { status: 500 });
