@@ -323,7 +323,7 @@ export default function Main() {
                                         </div>
                                     </div>
                                     {/* Mobil: orta alanda kompakt şerit */}
-                                    <div className="md:hidden w-[75%] h-[110px] overflow-hidden anim-fadeInUp anim-d2 self-end">
+                                    <div className="md:hidden absolute right-3 top-[22%] w-[52%] h-[130px] overflow-hidden anim-fadeInUp anim-d2">
                                         <div className="absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-[#062327]/60 to-transparent z-10 pointer-events-none" />
                                         <div className="absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-[#062327]/60 to-transparent z-10 pointer-events-none" />
                                         <div className="anim-scroll-up flex flex-col gap-2">
