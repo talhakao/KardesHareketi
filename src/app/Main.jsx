@@ -275,61 +275,72 @@ export default function Main() {
                 <section className="relative w-full h-[calc(100svh-64px)] mt-16 overflow-hidden">
                     {/* Arka plan görseli */}
                     <div className="absolute inset-0">
-                        <div
-                            className="w-full h-full"
-                            style={{
-                                backgroundImage: `url(${imgs.kurban_hero})`,
-                                backgroundSize: "cover",
-                                backgroundPosition: "72% 15%",
-                            }}
-                        />
-                        {/* Site rengine kayarak biten gradient */}
+                        {/* Mobil */}
+                        <div className="md:hidden w-full h-full" style={{ backgroundImage: `url(${imgs.kurban_hero})`, backgroundSize: "cover", backgroundPosition: "45% 20%" }} />
+                        {/* Masaüstü */}
+                        <div className="hidden md:block w-full h-full" style={{ backgroundImage: `url(${imgs.kurban_hero})`, backgroundSize: "cover", backgroundPosition: "72% 15%" }} />
                         <div className="absolute inset-0 bg-gradient-to-b from-[#062327]/60 via-transparent to-[#062327]" />
                         <div className="absolute inset-0 bg-[#062327]/25" />
                     </div>
 
                     {/* İçerik */}
-                    <div className="relative z-10 h-full flex flex-col justify-between px-6 md:px-14 py-8 md:py-14">
+                    <div className="relative z-10 h-full flex flex-col md:justify-between px-5 md:px-14 py-6 md:py-14 gap-3 md:gap-0">
                         {/* Üst: Başlık */}
-                        <div className="anim-fadeInUp">
-                            <h1 className="text-5xl md:text-7xl lg:text-8xl font-montserrat-black text-white leading-none tracking-tight uppercase drop-shadow-2xl">
+                        <div className="anim-fadeInUp max-w-[55%] md:max-w-none">
+                            <h1 className="text-4xl md:text-7xl lg:text-8xl font-montserrat-black text-white leading-none tracking-tight uppercase drop-shadow-2xl">
                                 DAİMA<br />
                                 KARDEŞİNİN<br />
                                 YANINDA
                             </h1>
-                            <p className="mt-3 md:mt-5 text-sm md:text-base text-gray-300 font-montserrat-light max-w-xs md:max-w-sm leading-relaxed drop-shadow-md">
+                            <p className="mt-2 md:mt-5 text-xs md:text-base text-gray-300 font-montserrat-light max-w-[180px] md:max-w-sm leading-relaxed drop-shadow-md">
                                 Vekaletlerinizi Afrika'daki ihtiyaç sahibi kardeşlerimize ulaştırıyoruz.
                             </p>
                         </div>
 
-                        {/* Orta sağ: Kayan ayet kartları */}
-                        <div className="absolute right-4 md:right-6 top-[28%] anim-fadeInUp anim-d2 w-[280px] md:w-[380px] h-[260px] md:h-[320px] overflow-hidden">
-                            <div className="absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-[#062327]/60 to-transparent z-10 pointer-events-none" />
-                            <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-[#062327]/60 to-transparent z-10 pointer-events-none" />
-                            <div className="anim-scroll-up flex flex-col gap-3">
-                                {[
-                                    { text: "Rabbin için namaz kıl ve kurban kes.", source: "Kevser Suresi, 2. Ayet" },
-                                    { text: "Her ümmet için, Allah'ın kendilerine rızık olarak verdiği hayvanlar üzerine ismini ansınlar diye kurban kesmeyi meşru kıldık...", source: "Hac Suresi, 34. Ayet" },
-                                    { text: "Onların ne etleri ne de kanları Allah'a ulaşır; fakat O'na sadece sizin takvanız ulaşır.", source: "Hac Suresi, 36-37. Ayetler" },
-                                    { text: "Biz, İbrahim'e büyük bir kurbanlık vererek onu kurtardık.", source: "Saffat Suresi, 107. Ayet" },
-                                    { text: "Eğer alıkonursanız kolayınıza gelen kurbanı gönderin...", source: "Bakara Suresi, 196. Ayet" },
-                                    /* Döngü için tekrar */
-                                    { text: "Rabbin için namaz kıl ve kurban kes.", source: "Kevser Suresi, 2. Ayet" },
-                                    { text: "Her ümmet için, Allah'ın kendilerine rızık olarak verdiği hayvanlar üzerine ismini ansınlar diye kurban kesmeyi meşru kıldık...", source: "Hac Suresi, 34. Ayet" },
-                                    { text: "Onların ne etleri ne de kanları Allah'a ulaşır; fakat O'na sadece sizin takvanız ulaşır.", source: "Hac Suresi, 36-37. Ayetler" },
-                                    { text: "Biz, İbrahim'e büyük bir kurbanlık vererek onu kurtardık.", source: "Saffat Suresi, 107. Ayet" },
-                                    { text: "Eğer alıkonursanız kolayınıza gelen kurbanı gönderin...", source: "Bakara Suresi, 196. Ayet" },
-                                ].map((v, i) => (
-                                    <div key={i} className="border-l-4 border-orange-500 pl-3 bg-black/25 rounded-r-xl p-3 backdrop-blur-sm">
-                                        <p className="text-white font-montserrat-light text-xs leading-relaxed italic">"{v.text}"</p>
-                                        <span className="text-orange-400 text-[10px] font-montserrat-semibold mt-1.5 block">— {v.source}</span>
+                        {/* Kayan ayet kartları — masaüstü: sağ; mobil: ortalı dar şerit */}
+                        {(() => {
+                            const verses = [
+                                { text: "Rabbin için namaz kıl ve kurban kes.", source: "Kevser Suresi, 2. Ayet" },
+                                { text: "Her ümmet için, Allah'ın kendilerine rızık olarak verdiği hayvanlar üzerine ismini ansınlar diye kurban kesmeyi meşru kıldık...", source: "Hac Suresi, 34. Ayet" },
+                                { text: "Onların ne etleri ne de kanları Allah'a ulaşır; fakat O'na sadece sizin takvanız ulaşır.", source: "Hac Suresi, 36-37. Ayetler" },
+                                { text: "Biz, İbrahim'e büyük bir kurbanlık vererek onu kurtardık.", source: "Saffat Suresi, 107. Ayet" },
+                                { text: "Eğer alıkonursanız kolayınıza gelen kurbanı gönderin...", source: "Bakara Suresi, 196. Ayet" },
+                            ];
+                            const doubled = [...verses, ...verses];
+                            return (
+                                <>
+                                    {/* Masaüstü: sağda absolute */}
+                                    <div className="hidden md:block absolute right-6 top-[28%] anim-fadeInUp anim-d2 w-[380px] h-[320px] overflow-hidden">
+                                        <div className="absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-[#062327]/60 to-transparent z-10 pointer-events-none" />
+                                        <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-[#062327]/60 to-transparent z-10 pointer-events-none" />
+                                        <div className="anim-scroll-up flex flex-col gap-3">
+                                            {doubled.map((v, i) => (
+                                                <div key={i} className="border-l-4 border-orange-500 pl-3 bg-black/25 rounded-r-xl p-3 backdrop-blur-sm">
+                                                    <p className="text-white font-montserrat-light text-xs leading-relaxed italic">"{v.text}"</p>
+                                                    <span className="text-orange-400 text-[10px] font-montserrat-semibold mt-1.5 block">— {v.source}</span>
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
-                                ))}
-                            </div>
-                        </div>
+                                    {/* Mobil: orta alanda kompakt şerit */}
+                                    <div className="md:hidden w-[75%] h-[110px] overflow-hidden anim-fadeInUp anim-d2 self-end">
+                                        <div className="absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-[#062327]/60 to-transparent z-10 pointer-events-none" />
+                                        <div className="absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-[#062327]/60 to-transparent z-10 pointer-events-none" />
+                                        <div className="anim-scroll-up flex flex-col gap-2">
+                                            {doubled.map((v, i) => (
+                                                <div key={i} className="border-l-4 border-orange-500 pl-3 bg-black/25 rounded-r-xl px-3 py-2 backdrop-blur-sm">
+                                                    <p className="text-white font-montserrat-light text-[11px] leading-snug italic">"{v.text}"</p>
+                                                    <span className="text-orange-400 text-[9px] font-montserrat-semibold mt-1 block">— {v.source}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </>
+                            );
+                        })()}
 
                         {/* Alt: WhatsApp butonu */}
-                        <div className="flex flex-col items-center gap-3 anim-fadeInUp anim-d3">
+                        <div className="flex flex-col items-center gap-3 anim-fadeInUp anim-d3 mt-auto md:mt-0">
                             <a
                                 href="https://wa.me/905414798809?text=Merhaba%20kurban%C4%B1m%C4%B1%20ba%C4%9F%C4%B1%C5%9Flamak%20istiyorum%20bilgi%20alabilir%20miyim%3F"
                                 target="_blank"
