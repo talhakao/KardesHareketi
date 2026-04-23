@@ -1,5 +1,5 @@
 "use client";
-import { FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaInstagram, FaYoutube, FaWhatsapp } from "react-icons/fa";
 import { Button, Modal } from "antd";
 import { useState, useEffect } from "react";
 import { Dropdown, Space } from "antd";
@@ -31,6 +31,7 @@ const DEFAULT_IMAGES = {
     activity_eglence_2: "https://i.imghippo.com/files/mac6312nE.jpeg",
     activity_eglence_3: "https://i.imghippo.com/files/OsIO2212kJs.jpeg",
     home_about: "/Images/cocuklarElSalliyor.jpeg",
+    kurban_hero: "https://images.unsplash.com/photo-1710559054293-c17019e380f1?w=1920&q=80",
 };
 
 // Scroll-reveal: currentState'e bağlı — sayfa değişince elemanlar yeniden observe edilir
@@ -269,33 +270,107 @@ export default function Main() {
                 </div>
             </div>
 
-            {/* ── HERO TEXT OVERLAY ── */}
-            <div className={`absolute w-full flex justify-end items-center z-10 ${currentState !== 0 ? "pt-[160px] md:pt-52" : "pt-[45svh] md:pt-80"}`}>
-                <div className="absolute z-10 bg-gradient-radial from-black to-transparent h-[200px] md:h-[300px] w-[90vw] md:w-[700px] rounded-full mr-4 md:mr-16 opacity-80 blur-xl" />
-                <div className={`absolute z-20 flex flex-col items-end justify-center px-5 md:px-12 mx-2 md:mx-6 ${currentState !== 0 ? "mt-0 md:mt-16" : ""}`}>
-                    <span className={`anim-fadeInUp anim-d2 bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent select-none font-montserrat-bold ${currentState !== 0 ? "text-xl md:text-4xl" : "text-2xl md:text-6xl"}`}>
-                        Kardeş Hareketi
-                    </span>
-                    <div className={`anim-fadeInUp anim-d3 text-right font-montserrat-light select-none ${currentState !== 0 ? "text-lg md:text-3xl" : "text-xl md:text-5xl mt-1.5 md:mt-4"}`}>
-                        <span className="text-gray-200">Burada Bir{" "}</span>
-                        <span className="bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent font-montserrat-bold">Kardeş'in</span>
-                        <span className="text-gray-200">{" "}Var</span>
+            {/* ── KURBAN HERO (sadece anasayfa) ── */}
+            {currentState === 0 && (
+                <section className="relative w-full h-[calc(100svh-64px)] mt-16 overflow-hidden">
+                    {/* Arka plan görseli */}
+                    <div className="absolute inset-0">
+                        <div
+                            className="w-full h-full"
+                            style={{
+                                backgroundImage: `url(${imgs.kurban_hero})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "72% 15%",
+                            }}
+                        />
+                        {/* Site rengine kayarak biten gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-[#062327]/60 via-transparent to-[#062327]" />
+                        <div className="absolute inset-0 bg-[#062327]/25" />
                     </div>
-                    {currentState === 0 && (
-                        <button
-                            onClick={() => scrollToSection("about")}
-                            className="anim-fadeInUp anim-d4 mt-3 md:mt-6 px-5 md:px-7 py-2 md:py-3 bg-orange-600 hover:bg-orange-500 active:scale-95 text-white font-montserrat-bold rounded-full shadow-lg transition-all duration-300 hover:scale-105 text-xs md:text-base"
-                        >
-                            Biz Kimiz?
-                        </button>
-                    )}
-                </div>
-            </div>
 
-            {/* ── CAROUSEL ── */}
-            <div className="pt-16">
-                <MainCarousel state={currentState} />
-            </div>
+                    {/* İçerik */}
+                    <div className="relative z-10 h-full flex flex-col justify-between px-6 md:px-14 py-8 md:py-14">
+                        {/* Üst: Başlık */}
+                        <div className="anim-fadeInUp">
+                            <h1 className="text-5xl md:text-7xl lg:text-8xl font-montserrat-black text-white leading-none tracking-tight uppercase drop-shadow-2xl">
+                                DAİMA<br />
+                                KARDEŞİNİN<br />
+                                YANINDA
+                            </h1>
+                            <p className="mt-3 md:mt-5 text-sm md:text-base text-gray-300 font-montserrat-light max-w-xs md:max-w-sm leading-relaxed drop-shadow-md">
+                                Vekaletlerinizi Afrika'daki ihtiyaç sahibi kardeşlerimize ulaştırıyoruz.
+                            </p>
+                        </div>
+
+                        {/* Orta sağ: Kayan ayet kartları */}
+                        <div className="absolute right-4 md:right-6 top-[28%] anim-fadeInUp anim-d2 w-[280px] md:w-[380px] h-[260px] md:h-[320px] overflow-hidden">
+                            <div className="absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-[#062327]/60 to-transparent z-10 pointer-events-none" />
+                            <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-[#062327]/60 to-transparent z-10 pointer-events-none" />
+                            <div className="anim-scroll-up flex flex-col gap-3">
+                                {[
+                                    { text: "Rabbin için namaz kıl ve kurban kes.", source: "Kevser Suresi, 2. Ayet" },
+                                    { text: "Her ümmet için, Allah'ın kendilerine rızık olarak verdiği hayvanlar üzerine ismini ansınlar diye kurban kesmeyi meşru kıldık...", source: "Hac Suresi, 34. Ayet" },
+                                    { text: "Onların ne etleri ne de kanları Allah'a ulaşır; fakat O'na sadece sizin takvanız ulaşır.", source: "Hac Suresi, 36-37. Ayetler" },
+                                    { text: "Biz, İbrahim'e büyük bir kurbanlık vererek onu kurtardık.", source: "Saffat Suresi, 107. Ayet" },
+                                    { text: "Eğer alıkonursanız kolayınıza gelen kurbanı gönderin...", source: "Bakara Suresi, 196. Ayet" },
+                                    /* Döngü için tekrar */
+                                    { text: "Rabbin için namaz kıl ve kurban kes.", source: "Kevser Suresi, 2. Ayet" },
+                                    { text: "Her ümmet için, Allah'ın kendilerine rızık olarak verdiği hayvanlar üzerine ismini ansınlar diye kurban kesmeyi meşru kıldık...", source: "Hac Suresi, 34. Ayet" },
+                                    { text: "Onların ne etleri ne de kanları Allah'a ulaşır; fakat O'na sadece sizin takvanız ulaşır.", source: "Hac Suresi, 36-37. Ayetler" },
+                                    { text: "Biz, İbrahim'e büyük bir kurbanlık vererek onu kurtardık.", source: "Saffat Suresi, 107. Ayet" },
+                                    { text: "Eğer alıkonursanız kolayınıza gelen kurbanı gönderin...", source: "Bakara Suresi, 196. Ayet" },
+                                ].map((v, i) => (
+                                    <div key={i} className="border-l-4 border-orange-500 pl-3 bg-black/25 rounded-r-xl p-3 backdrop-blur-sm">
+                                        <p className="text-white font-montserrat-light text-xs leading-relaxed italic">"{v.text}"</p>
+                                        <span className="text-orange-400 text-[10px] font-montserrat-semibold mt-1.5 block">— {v.source}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Alt: WhatsApp butonu */}
+                        <div className="flex flex-col items-center gap-3 anim-fadeInUp anim-d3">
+                            <a
+                                href="https://wa.me/905414798809?text=Merhaba%20kurban%C4%B1m%C4%B1%20ba%C4%9F%C4%B1%C5%9Flamak%20istiyorum%20bilgi%20alabilir%20miyim%3F"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-3 bg-green-500 hover:bg-green-400 active:scale-95 text-white font-montserrat-bold px-8 py-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-105 text-base md:text-lg"
+                            >
+                                <FaWhatsapp className="text-xl" />
+                                Kurban'ını Bağışla
+                            </a>
+                            <button
+                                onClick={() => scrollToSection("about")}
+                                className="text-gray-400 text-xs font-montserrat-light hover:text-white transition-colors"
+                            >
+                                ↓ Aşağı kaydır
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* ── HERO TEXT OVERLAY + CAROUSEL (diğer sayfalar) ── */}
+            {currentState !== 0 && (
+                <>
+                    <div className="absolute w-full flex justify-end items-center z-10 pt-[160px] md:pt-52">
+                        <div className="absolute z-10 bg-gradient-radial from-black to-transparent h-[200px] md:h-[300px] w-[90vw] md:w-[700px] rounded-full mr-4 md:mr-16 opacity-80 blur-xl" />
+                        <div className="absolute z-20 flex flex-col items-end justify-center px-5 md:px-12 mx-2 md:mx-6">
+                            <span className="anim-fadeInUp anim-d2 bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent select-none font-montserrat-bold text-xl md:text-4xl">
+                                Kardeş Hareketi
+                            </span>
+                            <div className="anim-fadeInUp anim-d3 text-right font-montserrat-light select-none text-lg md:text-3xl">
+                                <span className="text-gray-200">Burada Bir{" "}</span>
+                                <span className="bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent font-montserrat-bold">Kardeş'in</span>
+                                <span className="text-gray-200">{" "}Var</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="pt-16">
+                        <MainCarousel state={currentState} />
+                    </div>
+                </>
+            )}
 
             {/* ── ANA SAYFA İÇERİĞİ ── */}
             {currentState === 0 && (

@@ -36,6 +36,17 @@ html { scroll-behavior: smooth; }
   100% { background-position: 400px 0; }
 }
 
+@keyframes scrollUp {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+.anim-scroll-up {
+  animation: scrollUp 18s linear infinite;
+}
+.anim-scroll-up:hover {
+  animation-play-state: paused;
+}
+
 /* ── Animasyon yardımcı class'ları ── */
 .anim-fadeInUp   { animation: fadeInUp   0.7s ease both; }
 .anim-fadeInLeft { animation: fadeInLeft 0.7s ease both; }

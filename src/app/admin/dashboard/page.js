@@ -6,6 +6,10 @@ import { useRouter } from "next/navigation";
 // Görsel gruplarını tanımla
 const IMAGE_GROUPS = [
   {
+    group: "Kurban Kampanyası - Ana Sayfa Hero",
+    keys: ["kurban_hero"],
+  },
+  {
     group: "Carousel",
     keys: ["carousel_1", "carousel_2", "carousel_3", "carousel_4"],
   },
