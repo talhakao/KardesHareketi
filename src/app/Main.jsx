@@ -276,7 +276,7 @@ export default function Main() {
                     {/* Arka plan görseli */}
                     <div className="absolute inset-0">
                         {/* Mobil */}
-                        <div className="md:hidden w-full h-full" style={{ backgroundImage: `url(${imgs.kurban_hero})`, backgroundSize: "cover", backgroundPosition: "45% 20%" }} />
+                        <div className="md:hidden w-full h-full" style={{ backgroundImage: `url(${imgs.kurban_hero})`, backgroundSize: "cover", backgroundPosition: "52% 10%" }} />
                         {/* Masaüstü */}
                         <div className="hidden md:block w-full h-full" style={{ backgroundImage: `url(${imgs.kurban_hero})`, backgroundSize: "cover", backgroundPosition: "72% 15%" }} />
                         <div className="absolute inset-0 bg-gradient-to-b from-[#062327]/60 via-transparent to-[#062327]" />
