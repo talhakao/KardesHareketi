@@ -287,7 +287,7 @@ export default function Main() {
                     <div className="relative z-10 h-full flex flex-col md:justify-between px-5 md:px-14 py-6 md:py-14 gap-3 md:gap-0">
                         {/* Üst: Başlık */}
                         <div className="anim-fadeInUp max-w-[55%] md:max-w-none">
-                            <h1 className="text-4xl md:text-7xl lg:text-8xl font-montserrat-black text-white leading-none tracking-tight uppercase drop-shadow-2xl">
+                            <h1 className="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-montserrat-black text-white leading-none tracking-tight uppercase drop-shadow-2xl">
                                 DAİMA<br />
                                 KARDEŞİNİN<br />
                                 YANINDA
@@ -323,7 +323,7 @@ export default function Main() {
                                         </div>
                                     </div>
                                     {/* Mobil: orta alanda kompakt şerit */}
-                                    <div className="md:hidden absolute right-3 top-[22%] w-[52%] h-[130px] overflow-hidden anim-fadeInUp anim-d2">
+                                    <div className="md:hidden absolute right-3 top-[18%] sm:top-[22%] w-[33%] sm:w-[40%] h-[120px] sm:h-[130px] overflow-hidden anim-fadeInUp anim-d2">
                                         <div className="absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-[#062327]/60 to-transparent z-10 pointer-events-none" />
                                         <div className="absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-[#062327]/60 to-transparent z-10 pointer-events-none" />
                                         <div className="anim-scroll-up flex flex-col gap-2">
